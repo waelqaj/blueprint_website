@@ -377,7 +377,22 @@
     #nav.scrolled .btn-quote:hover { background: rgba(126,207,255,0.07); border-color: var(--bp-cyan); }
     .btn-quote:hover { transform: translateY(-1px); background: rgba(46,58,224,0.08); border-color: var(--brand); }
 
-    /* Service cards */
+    /* Bento animations */
+    @keyframes pulseGlow {
+      0%, 100% { text-shadow: 0 0 6px rgba(126, 207, 255, 0.5); }
+      50% { text-shadow: 0 0 14px rgba(126, 207, 255, 0.9), 0 0 28px rgba(126, 207, 255, 0.3); }
+    }
+    @keyframes flicker {
+      0% { opacity: 0.88; }
+      50% { opacity: 1; }
+      100% { opacity: 0.92; }
+    }
+    @keyframes cornerPulse {
+      0%, 100% { opacity: 0.3; box-shadow: none; }
+      50% { opacity: 0.8; box-shadow: 0 0 6px rgba(126, 207, 255, 0.3); }
+    }
+
+    /* Service cards — bento style */
     .svc-card {
       position: relative;
       background: var(--bp-card);
@@ -386,16 +401,36 @@
       transition: transform 0.28s cubic-bezier(.34,1.56,.64,1), border-color 0.28s, box-shadow 0.28s;
       cursor: default;
     }
-    .svc-card::before, .svc-card::after {
-      content: ''; position: absolute;
-      width: 11px; height: 11px;
-      border-color: var(--bp-cyan); border-style: solid;
-      opacity: 0.28; transition: opacity 0.28s;
+    .svc-card h3 {
+      animation: pulseGlow 4s ease-in-out infinite;
+      color: var(--white);
     }
-    .svc-card::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
-    .svc-card::after  { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
-    .svc-card:hover { transform: translateY(-4px); border-color: rgba(126,207,255,0.45); box-shadow: 0 16px 48px rgba(14,30,180,0.25), 0 0 0 1px rgba(126,207,255,0.1); }
-    .svc-card:hover::before, .svc-card:hover::after { opacity: 0.9; }
+    .svc-card .anno:first-child {
+      animation: flicker 3s ease-in-out infinite;
+    }
+    /* Corner brackets — all 4 corners */
+    .svc-card .corner {
+      position: absolute;
+      width: 12px; height: 12px;
+      border-color: var(--bp-cyan);
+      border-style: solid;
+      opacity: 0.3;
+      transition: opacity 0.35s ease, box-shadow 0.35s ease;
+    }
+    .svc-card .corner.top-left     { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
+    .svc-card .corner.top-right    { top: -1px; right: -1px; border-width: 1.5px 1.5px 0 0; }
+    .svc-card .corner.bottom-left  { bottom: -1px; left: -1px; border-width: 0 0 1.5px 1.5px; }
+    .svc-card .corner.bottom-right { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
+    .svc-card:hover .corner {
+      opacity: 1;
+      box-shadow: 0 0 8px rgba(126, 207, 255, 0.4);
+    }
+    .svc-card::before, .svc-card::after { display: none; }
+    .svc-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(126,207,255,0.45);
+      box-shadow: 0 16px 48px rgba(14,30,180,0.25), 0 0 0 1px rgba(126,207,255,0.15), 0 0 20px rgba(126,207,255,0.08);
+    }
 
     /* Portfolio cards */
     .port-card { position: relative; overflow: hidden; cursor: pointer; border: 1px solid rgba(126,207,255,0.18); background: #0B1A6A; }
@@ -703,14 +738,11 @@
     .tiles-wrap {
       position: absolute;
       inset: 0;
-      z-index: 10;
+      z-index: 0;
       display: flex;
       justify-content: center;
       overflow: hidden;
       pointer-events: none;
-    }
-    .tiles-cell {
-      pointer-events: auto;
     }
     .tiles-col {
       display: flex;
@@ -725,7 +757,7 @@
       background: transparent;
       transition: background 2s ease;
     }
-    .tiles-cell:hover {
+    .tiles-cell.lit {
       background: rgba(46, 58, 224, 0.18);
       transition: background 0s;
     }
@@ -733,7 +765,7 @@
     .bp-dark .tiles-cell {
       border-color: rgba(126, 207, 255, 0.06);
     }
-    .bp-dark .tiles-cell:hover {
+    .bp-dark .tiles-cell.lit {
       background: rgba(126, 207, 255, 0.12);
     }
   </style>
@@ -1055,6 +1087,7 @@
 
       <!-- Concept -->
       <div class="svc-card reveal" style="transition-delay:0.04s;">
+        <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
         <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 01</div>
         <div style="margin-bottom:10px;">
           <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
@@ -1068,6 +1101,7 @@
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.08s;">
+        <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
         <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 02</div>
         <div style="margin-bottom:10px;">
           <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
@@ -1082,6 +1116,7 @@
 
       <!-- Design -->
       <div class="svc-card reveal" style="transition-delay:0.12s;">
+        <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
         <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 03</div>
         <div style="margin-bottom:10px;">
           <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
@@ -1095,6 +1130,7 @@
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.16s;">
+        <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
         <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 04</div>
         <div style="margin-bottom:10px;">
           <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
@@ -1109,6 +1145,7 @@
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.2s;">
+        <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
         <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 05</div>
         <div style="margin-bottom:10px;">
           <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
@@ -1122,6 +1159,7 @@
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.24s;">
+        <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
         <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 06</div>
         <div style="margin-bottom:10px;">
           <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
@@ -1137,6 +1175,7 @@
 
       <!-- Visuals -->
       <div class="svc-card reveal" style="transition-delay:0.28s;">
+        <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
         <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 07</div>
         <div style="margin-bottom:10px;">
           <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
@@ -1150,6 +1189,7 @@
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.32s;">
+        <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
         <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 08</div>
         <div style="margin-bottom:10px;">
           <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
@@ -1162,6 +1202,7 @@
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.36s;">
+        <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
         <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 09</div>
         <div style="margin-bottom:10px;">
           <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
@@ -1176,6 +1217,7 @@
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.4s;">
+        <div class="corner top-left"></div><div class="corner top-right"></div><div class="corner bottom-left"></div><div class="corner bottom-right"></div>
         <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 10</div>
         <div style="margin-bottom:10px;">
           <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
@@ -2008,26 +2050,45 @@
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
   // Tiles hover grid generator
-  function generateTiles(container) {
+  function generateTiles(container, parentSection) {
     if (!container) return;
     const tileSize = 36;
     const rect = container.getBoundingClientRect();
     const cols = Math.ceil(rect.width / tileSize) + 1;
     const rows = Math.ceil(rect.height / tileSize) + 1;
+    const grid = [];
     const frag = document.createDocumentFragment();
     for (let c = 0; c < cols; c++) {
       const col = document.createElement('div');
       col.className = 'tiles-col';
+      const colCells = [];
       for (let r = 0; r < rows; r++) {
         const cell = document.createElement('div');
         cell.className = 'tiles-cell';
         col.appendChild(cell);
+        colCells.push(cell);
       }
       frag.appendChild(col);
+      grid.push(colCells);
     }
     container.appendChild(frag);
+
+    // Mousemove on parent lights up tiles without blocking clicks
+    const target = parentSection || container.parentElement;
+    target.addEventListener('mousemove', (e) => {
+      const wrapRect = container.getBoundingClientRect();
+      const x = e.clientX - wrapRect.left;
+      const y = e.clientY - wrapRect.top;
+      const ci = Math.floor(x / tileSize);
+      const ri = Math.floor(y / tileSize);
+      if (ci >= 0 && ci < grid.length && ri >= 0 && ri < grid[ci].length) {
+        const cell = grid[ci][ri];
+        cell.classList.add('lit');
+        setTimeout(() => cell.classList.remove('lit'), 50);
+      }
+    });
   }
-  generateTiles(document.getElementById('hero-tiles'));
+  generateTiles(document.getElementById('hero-tiles'), document.getElementById('hero'));
 
   // Project detail panels
   function openProject(id) {
