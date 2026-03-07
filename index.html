@@ -112,6 +112,20 @@
     .bp-light .svc-card svg { stroke: var(--brand) !important; }
     .bp-light .svc-card svg circle[fill] { fill: var(--brand) !important; }
     .bp-light .svc-card .anno { color: rgba(11,26,106,0.38) !important; }
+
+    /* Blueprint Patterns grid */
+    .bp-pat {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      cursor: pointer; transition: transform 0.3s cubic-bezier(.34,1.4,.64,1);
+    }
+    .bp-pat:hover { transform: scale(1.06); }
+    .bp-pat svg { width: 100%; max-width: 160px; aspect-ratio: 1; }
+    .bp-pat-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--white); line-height: 1.4;
+      text-align: center;
+    }
     .bp-light p { color: var(--light-muted) !important; }
     .bp-light h2, .bp-light h3 { color: var(--light-text) !important; }
 
@@ -262,6 +276,40 @@
     .nav-link:hover { color: var(--brand); }
     .nav-link:hover::before { opacity: 1; transform: scale(1); }
 
+    /* Dropdown */
+    .nav-dropdown { position: relative; }
+    .dd-arrow {
+      transition: transform 0.3s cubic-bezier(.34,1.4,.64,1);
+      flex-shrink: 0;
+    }
+    .nav-dropdown.open .dd-arrow {
+      transform: rotate(90deg);
+    }
+    .dropdown-menu {
+      position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(8px);
+      min-width: 230px; padding: 10px 0;
+      background: rgba(11, 26, 106, 0.97);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(126, 207, 255, 0.14);
+      border-radius: 4px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25), 0 2px 8px rgba(0,0,0,0.1);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 200;
+    }
+    .nav-dropdown.open .dropdown-menu {
+      opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0);
+    }
+    .dropdown-item {
+      display: block; padding: 10px 22px; text-decoration: none;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      color: rgba(190, 210, 255, 0.8); letter-spacing: 0.02em;
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+    .dropdown-item:hover {
+      color: var(--white); background: rgba(126, 207, 255, 0.08);
+    }
+
     /* Scrolled nav: light text on dark bg */
     #nav.scrolled .nav-link { color: rgba(190, 210, 255, 0.72); }
     #nav.scrolled .nav-link:hover { color: var(--white); }
@@ -270,9 +318,11 @@
       border-color: rgba(126, 207, 255, 0.18);
     }
 
-    /* Logo: dark on transparent nav, white when scrolled */
-    #nav-logo { filter: brightness(0) saturate(100%) invert(10%) sepia(80%) saturate(600%) hue-rotate(210deg); transition: filter 0.35s ease; }
-    #nav.scrolled #nav-logo { filter: brightness(0) invert(1); }
+    /* Nav logo hidden — replaced by persistent #site-logo */
+    #nav-logo { display: none; }
+
+    /* Panel-back buttons hidden — logo serves as home affordance */
+    .panel-back { display: none !important; }
 
     /* Buttons */
     .btn {
@@ -308,6 +358,18 @@
       border-radius: 2px;
     }
     /* Scrolled: outline only on dark nav */
+    .user-icon {
+      color: var(--bp);
+      cursor: pointer;
+      transition: color 0.22s ease, opacity 0.22s ease;
+      opacity: 0.7;
+      display: flex;
+      align-items: center;
+    }
+    .user-icon:hover { opacity: 1; }
+    #nav.scrolled .user-icon { color: rgba(190, 210, 255, 0.72); }
+    #nav.scrolled .user-icon:hover { color: var(--white); opacity: 1; }
+
     #nav.scrolled .btn-quote {
       background: transparent; color: var(--bp-cyan);
       border-color: rgba(126,207,255,0.38);
@@ -320,7 +382,7 @@
       position: relative;
       background: var(--bp-card);
       border: 1px solid var(--border);
-      padding: 32px;
+      padding: 20px;
       transition: transform 0.28s cubic-bezier(.34,1.56,.64,1), border-color 0.28s, box-shadow 0.28s;
       cursor: default;
     }
@@ -425,9 +487,28 @@
       position: fixed; inset: 0; z-index: 99;
       background: rgba(11, 26, 106, 0.98);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 32px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      gap: 18px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      padding: 80px 32px 32px;
     }
     #mobile-nav.open { opacity: 1; pointer-events: all; }
+    .mob-link {
+      text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2px;
+    }
+    .mob-link-title {
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 900;
+      color: var(--white); letter-spacing: -0.03em; transition: color 0.2s;
+    }
+    .mob-link-sub {
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+      color: rgba(190,210,255,0.5); letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .mob-link:hover .mob-link-title { color: var(--bp-cyan); }
+    .mob-section { text-align: center; display: flex; flex-direction: column; align-items: center; }
+    .mob-sub-link {
+      text-decoration: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
+      color: rgba(190, 210, 255, 0.6); letter-spacing: 0.04em; transition: color 0.2s;
+    }
+    .mob-sub-link:hover { color: var(--bp-cyan); }
 
     /* Blob animations */
     @keyframes blob-a {
@@ -459,7 +540,147 @@
     }
     .pulse-dot { animation: pulse-dot 2.2s ease-in-out infinite; }
 
+    /* ── Project detail panels ── */
+    .project-panel {
+      position: fixed; inset: 0; z-index: 400;
+      transform: translateY(100%);
+      transition: transform 0.58s cubic-bezier(.77,0,.18,1);
+      overflow-y: auto; overflow-x: hidden;
+      background-color: var(--bp);
+      background-image:
+        linear-gradient(rgba(126,207,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(126,207,255,0.08) 1px, transparent 1px),
+        linear-gradient(rgba(126,207,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(126,207,255,0.035) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+      color: var(--white);
+    }
+    .project-panel.open { transform: translateY(0); }
+    .project-back {
+      position: fixed; top: 22px; left: 48px; z-index: 410;
+      display: none; align-items: center; gap: 8px;
+      font-family: 'Space Mono', monospace; font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--bp-cyan); cursor: pointer; background: none;
+      border: none; padding: 0; opacity: 0; transition: opacity 0.3s ease 0.3s;
+    }
+    .project-back.visible { display: flex; opacity: 1; }
+    .project-back:hover { color: var(--white); }
+    .proj-title-block { padding: 80px 48px 0; max-width: 1280px; margin: 0 auto; }
+    .proj-title-header { border: 1px solid rgba(126,207,255,0.2); }
+    .proj-title-top {
+      padding: 20px 24px; border-bottom: 1px solid rgba(126,207,255,0.15);
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
+    }
+    .proj-title-grid { display: grid; grid-template-columns: repeat(3,1fr); }
+    .proj-title-cell {
+      padding: 14px 20px;
+      border-right: 1px solid rgba(126,207,255,0.12);
+      border-top: 1px solid rgba(126,207,255,0.12);
+    }
+    .proj-title-cell:nth-child(3), .proj-title-cell:nth-child(6) { border-right: none; }
+    .proj-title-label {
+      font-family: 'Space Mono', monospace; font-size: 8px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--bp-cyan); opacity: 0.6; display: block; margin-bottom: 5px;
+    }
+    .proj-title-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px; font-weight: 700; color: var(--white);
+    }
+    .proj-section { max-width: 1280px; margin: 0 auto; padding: 64px 48px; border-bottom: 1px solid rgba(126,207,255,0.1); }
+    .proj-sec-head {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 44px;
+      padding-bottom: 16px; border-bottom: 1px solid rgba(126,207,255,0.1);
+    }
+    .proj-sec-num {
+      font-family: 'Space Mono', monospace; font-size: 9px;
+      letter-spacing: 0.18em; color: var(--bp-cyan);
+      border: 1px solid rgba(126,207,255,0.25); padding: 4px 10px; flex-shrink: 0;
+    }
+    .proj-sec-title {
+      font-family: 'Space Mono', monospace; font-size: 11px;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--white);
+    }
+    .proj-sec-meta { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.15em; color: rgba(126,207,255,0.38); white-space: nowrap; }
+    .concept-box {
+      border: 1px solid rgba(126,207,255,0.18); padding: 20px;
+      background: rgba(14,28,110,0.3); position: relative;
+    }
+    .concept-box.approved { border-color: rgba(34,197,94,0.32); }
+    .concept-box::before, .concept-box::after {
+      content: ''; position: absolute; width: 9px; height: 9px;
+      border-color: rgba(126,207,255,0.35); border-style: solid;
+    }
+    .concept-box::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
+    .concept-box::after  { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
+    .concept-box.approved::before, .concept-box.approved::after { border-color: rgba(34,197,94,0.45); }
+    .proj-stat { padding: 28px 24px; background: rgba(14,28,110,0.35); }
+    .proj-stat-num {
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 48px;
+      font-weight: 900; line-height: 1; letter-spacing: -0.04em;
+      color: var(--bp-cyan); margin-bottom: 10px;
+    }
+    .proj-stat-label {
+      font-family: 'Space Mono', monospace; font-size: 9px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(190,210,255,0.65); margin-bottom: 8px; display: block;
+    }
+    .proj-stat-desc { font-size: 12px; color: var(--muted); line-height: 1.65; }
+    .proj-stamp {
+      display: inline-block; border: 2px solid rgba(34,197,94,0.5);
+      padding: 5px 14px; transform: rotate(-4deg); flex-shrink: 0; align-self: flex-start;
+    }
+    .proj-stamp span {
+      font-family: 'Space Mono', monospace; font-size: 14px;
+      font-weight: 700; color: rgba(34,197,94,0.72); letter-spacing: 0.22em;
+    }
+    .port-card .view-project-label {
+      position: absolute; bottom: 68px; right: 24px; z-index: 3;
+      font-family: 'Space Mono', monospace; font-size: 9px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--bp-cyan); opacity: 0;
+      display: flex; align-items: center; gap: 6px;
+      transition: opacity 0.28s ease, transform 0.28s ease;
+      transform: translateY(4px);
+    }
+    .port-card:hover .view-project-label { opacity: 1; transform: translateY(0); }
+
     /* Responsive */
+    /* ── Full-screen page panels ── */
+    .page-panel {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      transform: translateY(100%);
+      transition: transform 0.58s cubic-bezier(.77,0,.18,1);
+      overflow: hidden;
+    }
+    .page-panel.open { transform: translateY(0); }
+    body.panel-open { overflow: hidden; }
+
+    .panel-back {
+      position: fixed;
+      top: 22px; left: 48px;
+      z-index: 210;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease 0.3s;
+    }
+    .panel-back.visible { display: flex; opacity: 1; }
+    .panel-back:hover { color: var(--bp-cyan); }
+
     @media (max-width: 900px) {
       .hero-cols  { flex-direction: column !important; }
       .hero-svg   { display: none !important; }
@@ -481,21 +702,45 @@
 </head>
 <body>
 
+<!-- ════════ PERSISTENT LOGO ════════ -->
+<div id="site-logo" onclick="logoClick()" style="position:fixed;top:22px;left:48px;z-index:300;line-height:0;cursor:default;transition:opacity 0.3s ease;">
+  <img id="logo-dark"  src="brand_assets/Logo1.png"  alt="Blueprint" style="height:32px;width:auto;display:block;">
+  <img id="logo-white" src="brand_assets/LogoW.png"   alt="Blueprint" style="height:32px;width:auto;display:none;">
+</div>
+
 <!-- ════════ NAV ════════ -->
 <nav id="nav">
   <a href="#" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;">
-    <img id="nav-logo" src="brand_assets/1.png" alt="Blueprint" style="height:28px;width:auto;">
+    <img id="nav-logo" src="brand_assets/Logo1.png" alt="Blueprint" style="height:32px;width:auto;">
   </a>
 
-  <ul style="display:flex;align-items:center;gap:40px;list-style:none;" class="hidden md:flex">
-    <li><a href="#services" class="nav-link">Services</a></li>
-    <li><a href="#work"     class="nav-link">Work</a></li>
-    <li><a href="#about"    class="nav-link">About</a></li>
-    <li><a href="#contact"  class="nav-link">Contact</a></li>
+  <ul style="display:flex;align-items:center;gap:28px;list-style:none;position:absolute;left:50%;transform:translateX(-50%);" class="hidden md:flex">
+    <li><a href="#" class="nav-link" onclick="openPanel('panel-services');return false;">Services</a></li>
+    <li class="nav-dropdown" id="printing-dropdown">
+      <a href="#" class="nav-link" onclick="toggleDropdown(event);" style="display:inline-flex;align-items:center;gap:5px;">Printing <svg class="dd-arrow" width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M2 1l3 2.5L2 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <div class="dropdown-menu">
+        <a href="#" class="dropdown-item" onclick="openPanel('panel-stickers');return false;">Stickers &amp; Labels</a>
+        <a href="#" class="dropdown-item" onclick="openPanel('panel-signs');return false;">Signs &amp; Displays</a>
+        <a href="#" class="dropdown-item" onclick="openPanel('panel-apparel');return false;">Apparel</a>
+        <a href="#" class="dropdown-item" onclick="openPanel('panel-largeformat');return false;">Large Format Graphics</a>
+        <a href="#" class="dropdown-item" onclick="openPanel('panel-events');return false;">Event Graphics</a>
+        <a href="#" class="dropdown-item" onclick="openPanel('panel-marketing');return false;">Marketing Materials</a>
+        <a href="#" class="dropdown-item" onclick="openPanel('panel-packaging');return false;">Packaging</a>
+      </div>
+    </li>
+    <li><a href="#" class="nav-link" onclick="openPanel('panel-projects');return false;">Portfolio</a></li>
+    <li><a href="#" class="nav-link" onclick="openPanel('panel-about');return false;">About Us</a></li>
+    <li><a href="#" class="nav-link" onclick="openPanel('panel-contact');return false;">Contact</a></li>
   </ul>
 
-  <div style="display:flex;align-items:center;gap:12px;">
-    <a href="#contact" class="btn btn-quote hidden md:inline-flex">Get a Quote</a>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <a href="#" class="btn btn-quote hidden md:inline-flex" onclick="openPanel('panel-contact');return false;">Get a Quote</a>
+    <div class="user-icon" onclick="openPanel('panel-login')" title="Login">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="10" cy="7" r="3.5"/>
+        <path d="M3 18c0-3.5 3.1-6 7-6s7 2.5 7 6"/>
+      </svg>
+    </div>
     <button id="ham" aria-label="Menu" style="display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;" class="flex md:hidden">
       <span id="h1" style="width:22px;height:2px;background:var(--white);border-radius:2px;transition:transform .25s,opacity .25s;"></span>
       <span id="h2" style="width:22px;height:2px;background:var(--white);border-radius:2px;transition:opacity .25s;"></span>
@@ -506,16 +751,30 @@
 
 <!-- Mobile nav -->
 <div id="mobile-nav">
-  <a href="#services" class="nav-link" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:900;color:var(--white);letter-spacing:-0.03em;" onclick="closeNav()">Services</a>
-  <a href="#work"     class="nav-link" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:900;color:var(--white);letter-spacing:-0.03em;" onclick="closeNav()">Work</a>
-  <a href="#about"    class="nav-link" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:900;color:var(--white);letter-spacing:-0.03em;" onclick="closeNav()">About</a>
-  <a href="#contact"  class="nav-link" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:900;color:var(--white);letter-spacing:-0.03em;" onclick="closeNav()">Contact</a>
-  <a href="#contact" class="btn btn-lime" onclick="closeNav()">Get a Quote</a>
+  <a href="#" class="mob-link" onclick="closeNav();openPanel('panel-services');return false;"><span class="mob-link-title">Services</span><span class="mob-link-sub">Design, branding &amp; media</span></a>
+
+  <div class="mob-section">
+    <span class="mob-link-title" style="font-size:26px;color:var(--white);cursor:default;">Printing</span>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+      <a href="#" class="mob-sub-link" onclick="closeNav();openPanel('panel-stickers');return false;">Stickers &amp; Labels</a>
+      <a href="#" class="mob-sub-link" onclick="closeNav();openPanel('panel-signs');return false;">Signs &amp; Displays</a>
+      <a href="#" class="mob-sub-link" onclick="closeNav();openPanel('panel-apparel');return false;">Apparel</a>
+      <a href="#" class="mob-sub-link" onclick="closeNav();openPanel('panel-largeformat');return false;">Large Format Graphics</a>
+      <a href="#" class="mob-sub-link" onclick="closeNav();openPanel('panel-events');return false;">Event Graphics</a>
+      <a href="#" class="mob-sub-link" onclick="closeNav();openPanel('panel-marketing');return false;">Marketing Materials</a>
+      <a href="#" class="mob-sub-link" onclick="closeNav();openPanel('panel-packaging');return false;">Packaging</a>
+    </div>
+  </div>
+
+  <a href="#" class="mob-link" onclick="closeNav();openPanel('panel-projects');return false;"><span class="mob-link-title">Portfolio</span><span class="mob-link-sub">Our work</span></a>
+  <a href="#" class="mob-link" onclick="closeNav();openPanel('panel-about');return false;"><span class="mob-link-title">About Us</span><span class="mob-link-sub">About Blueprint</span></a>
+  <a href="#" class="mob-link" onclick="closeNav();openPanel('panel-contact');return false;"><span class="mob-link-title">Contact</span><span class="mob-link-sub">Get in touch</span></a>
+  <a href="#" class="btn btn-lime" onclick="closeNav();openPanel('panel-contact');return false;">Get a Quote</a>
 </div>
 
 
 <!-- ════════ HERO — SHEET 01 ════════ -->
-<section id="hero" class="bp-light" style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 48px;overflow:hidden;">
+<section id="hero" class="bp-light" style="height:100vh;display:flex;flex-direction:column;overflow:hidden;">
 
   <div class="blob-a" style="position:absolute;top:-8%;right:-2%;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(46,58,224,0.07) 0%,transparent 65%);filter:blur(90px);pointer-events:none;z-index:1;"></div>
   <div class="blob-b" style="position:absolute;bottom:-12%;left:-10%;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(46,58,224,0.05) 0%,transparent 68%);filter:blur(85px);pointer-events:none;z-index:1;"></div>
@@ -525,7 +784,7 @@
   <div class="sheet-label" style="position:absolute;top:88px;left:48px;z-index:3;">SHEET 01 / 05 — HERO</div>
   <div class="sheet-label" style="position:absolute;top:88px;right:48px;z-index:3;">SCALE 1:1 · FULL BLEED</div>
 
-  <div style="max-width:1280px;margin:0 auto;width:100%;position:relative;z-index:3;display:flex;align-items:center;gap:72px;padding-top:120px;padding-bottom:90px;" class="hero-cols">
+  <div style="flex:1;max-width:1280px;margin:0 auto;width:100%;position:relative;z-index:3;display:flex;align-items:center;gap:72px;padding:80px 48px 16px;" class="hero-cols">
 
     <!-- Left: content -->
     <div style="flex:1;min-width:0;">
@@ -535,9 +794,9 @@
       </div>
 
       <h1 class="reveal" style="font-size:clamp(52px,7.5vw,96px);font-weight:900;line-height:0.93;letter-spacing:-0.04em;margin-bottom:24px;transition-delay:0.07s;">
-        We Build<br>
-        <span style="color:var(--brand);">Brands That</span><br>
-        Mean Something.
+        Every Vision<br>
+        Needs A<br>
+        <span style="color:var(--brand);">Blueprint.</span>
       </h1>
 
       <div class="reveal dim-line" style="margin-bottom:24px;transition-delay:0.11s;">
@@ -546,13 +805,17 @@
         <div class="dl"></div>
       </div>
 
+      <p class="reveal" style="font-size:22px;font-weight:700;color:var(--light-text);max-width:460px;margin-bottom:14px;transition-delay:0.13s;letter-spacing:-0.01em;">
+        We Build Brands That Mean Something.
+      </p>
+
       <p class="reveal" style="font-size:17px;line-height:1.8;color:var(--light-muted);max-width:460px;margin-bottom:44px;transition-delay:0.15s;">
         From brand identity and print to web and marketing — everything your brand needs to stand out, tell its story, and stay there.
       </p>
 
       <div class="reveal hero-ctas" style="display:flex;align-items:center;gap:14px;transition-delay:0.2s;">
-        <a href="#contact" class="btn btn-lime">Start a Project</a>
-        <a href="#work" class="btn btn-ghost">View Our Work</a>
+        <a href="#" class="btn btn-lime" onclick="openPanel('panel-contact');return false;">Start a Project</a>
+        <a href="#" class="btn btn-ghost" onclick="openPanel('panel-projects');return false;">View Our Work</a>
       </div>
 
       <div class="reveal" style="margin-top:52px;display:flex;align-items:flex-start;gap:14px;transition-delay:0.27s;">
@@ -700,182 +963,563 @@
     </div>
   </div>
 
-  <!-- bottom sheet bar -->
-  <div style="position:absolute;bottom:0;left:0;right:0;border-top:1px solid rgba(11,26,106,0.07);padding:11px 48px;display:flex;align-items:center;justify-content:space-between;z-index:3;">
-    <div class="dim-line" style="flex:1;max-width:480px;">
-      <div class="dl"></div>
-      <span class="dt">SHEET 01 — BLUEPRINT CREATIVE — DC METRO AREA</span>
-      <div class="dl"></div>
+  <!-- stats bar — light themed, sits at bottom of hero viewport -->
+  <div style="flex-shrink:0;border-top:1px solid rgba(11,26,106,0.08);padding:18px 48px 22px;z-index:3;position:relative;">
+    <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:64px;" class="stats-row">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:44px;font-weight:900;color:var(--brand);line-height:1;letter-spacing:-0.04em;">40+</span>
+        <span class="anno" style="color:var(--light-muted);">Brands Built</span>
+      </div>
+      <div class="stat-div" style="width:1px;height:38px;background:rgba(11,26,106,0.15);"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:44px;font-weight:900;color:var(--brand);line-height:1;letter-spacing:-0.04em;">200+</span>
+        <span class="anno" style="color:var(--light-muted);">Projects Delivered</span>
+      </div>
+      <div class="stat-div" style="width:1px;height:38px;background:rgba(11,26,106,0.15);"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:44px;font-weight:900;color:var(--brand);line-height:1;letter-spacing:-0.04em;">5</span>
+        <span class="anno" style="color:var(--light-muted);">Years Active</span>
+      </div>
+      <div class="stat-div" style="width:1px;height:38px;background:rgba(11,26,106,0.15);"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:44px;font-weight:900;color:var(--brand);line-height:1;letter-spacing:-0.04em;">100%</span>
+        <span class="anno" style="color:var(--light-muted);">Client Satisfaction</span>
+      </div>
     </div>
-    <span class="sheet-label">DOC: BP-001 · REV-A</span>
   </div>
 </section>
 
 
-<!-- ════════ STATS BAR ════════ -->
-<div class="z2 bp-dark" style="background:rgba(14,28,110,0.32) !important;border-top:1px solid rgba(126,207,255,0.1);border-bottom:1px solid rgba(126,207,255,0.1);padding:44px 48px;">
-  <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:72px;" class="stats-row">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:56px;font-weight:900;color:var(--white);line-height:1;letter-spacing:-0.04em;">40+</span>
-      <span class="anno" style="opacity:0.65;">Brands Built</span>
-    </div>
-    <div class="stat-div" style="width:1px;height:44px;background:rgba(126,207,255,0.18);"></div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:56px;font-weight:900;color:var(--white);line-height:1;letter-spacing:-0.04em;">200+</span>
-      <span class="anno" style="opacity:0.65;">Projects Delivered</span>
-    </div>
-    <div class="stat-div" style="width:1px;height:44px;background:rgba(126,207,255,0.18);"></div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:56px;font-weight:900;color:var(--white);line-height:1;letter-spacing:-0.04em;">5</span>
-      <span class="anno" style="opacity:0.65;">Years Active</span>
-    </div>
-    <div class="stat-div" style="width:1px;height:44px;background:rgba(126,207,255,0.18);"></div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:56px;font-weight:900;color:var(--bp-cyan);line-height:1;letter-spacing:-0.04em;">100%</span>
-      <span class="anno" style="opacity:0.65;">Client Satisfaction</span>
-    </div>
-  </div>
-</div>
+<!-- ════════ SERVICES PANEL (combined) ════════ -->
+<div id="panel-services" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
 
+<section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
+  <div class="sheet-label" style="position:absolute;top:24px;right:48px;">SHEET 02 / 05 &mdash; SERVICES SPECIFICATION</div>
 
-<!-- ════════ SERVICES — SHEET 02 ════════ -->
-<section id="services" class="bp-dark" style="padding:120px 48px;position:relative;z-index:2;">
-  <div class="sheet-label" style="position:absolute;top:24px;right:48px;">SHEET 02 / 05 — SERVICES SPECIFICATION</div>
+  <div style="max-width:1400px;margin:0 auto;width:100%;">
 
-  <div style="max-width:1280px;margin:0 auto;">
-
-    <div style="margin-bottom:64px;" class="reveal">
-      <div class="section-num">02 — Services</div>
-      <h2 style="font-size:clamp(40px,5.5vw,72px);font-weight:900;letter-spacing:-0.04em;margin-bottom:16px;">
-        What We<br><span style="color:var(--bp-cyan);">Design & Build</span>
+    <div style="margin-bottom:24px;" class="reveal">
+      <div class="section-num">02 &mdash; Services</div>
+      <h2 style="font-size:clamp(28px,4vw,48px);font-weight:900;letter-spacing:-0.04em;margin-bottom:8px;">
+        What We <span style="color:var(--bp-cyan);">Design &amp; Build</span>
       </h2>
       <div class="dim-line" style="max-width:380px;">
         <div class="dl"></div><span class="dt">FULL-SERVICE CREATIVE DELIVERABLES</span><div class="dl"></div>
       </div>
     </div>
 
-    <!-- 3×2 grid with 1px gap lines -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(126,207,255,0.08);border:1px solid rgba(126,207,255,0.08);" class="svc-grid">
+    <!-- 5×2 grid -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(126,207,255,0.08);border:1px solid rgba(126,207,255,0.08);" class="svc-grid">
 
+      <!-- Concept -->
       <div class="svc-card reveal" style="transition-delay:0.04s;">
-        <div class="anno" style="margin-bottom:20px;opacity:0.38;">SPEC · 01</div>
-        <div style="margin-bottom:20px;">
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
-            <rect x="2"  y="2"  width="12" height="12" rx="2"/>
-            <rect x="20" y="2"  width="12" height="12" rx="2"/>
-            <rect x="11" y="11" width="12" height="12" rx="2"/>
-            <rect x="20" y="20" width="12" height="12" rx="2"/>
+        <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 01</div>
+        <div style="margin-bottom:10px;">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
+            <circle cx="17" cy="17" r="14"/><line x1="17" y1="3" x2="17" y2="31"/><line x1="3" y1="17" x2="31" y2="17"/>
+            <path d="M6 8 Q17 14 28 8" fill="none"/><path d="M6 26 Q17 20 28 26" fill="none"/>
           </svg>
         </div>
-        <h3 style="font-size:21px;font-weight:800;margin-bottom:8px;letter-spacing:-0.02em;">Brand Identity</h3>
-        <p style="font-size:13px;line-height:1.75;color:var(--muted);margin-bottom:16px;">Logo, brand guidelines, typography systems, and visual identity built to last.</p>
-        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: BRAND GUIDE + ASSET KIT</div>
+        <h3 style="font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">Brand Strategy</h3>
+        <p style="font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:8px;">Market positioning, competitive analysis, and strategic brand direction that sets you apart.</p>
+        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: STRATEGY DOCUMENT</div>
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.08s;">
-        <div class="anno" style="margin-bottom:20px;opacity:0.38;">SPEC · 02</div>
-        <div style="margin-bottom:20px;">
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
-            <rect x="5" y="3" width="24" height="28" rx="2"/>
-            <line x1="10" y1="10" x2="24" y2="10"/>
-            <line x1="10" y1="15" x2="24" y2="15"/>
-            <line x1="10" y1="20" x2="18" y2="20"/>
-            <rect x="17" y="23" width="11" height="7" rx="1"/>
+        <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 02</div>
+        <div style="margin-bottom:10px;">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
+            <rect x="2" y="2" width="12" height="12" rx="2"/><rect x="20" y="2" width="12" height="12" rx="2"/>
+            <rect x="11" y="11" width="12" height="12" rx="2"/><rect x="20" y="20" width="12" height="12" rx="2"/>
           </svg>
         </div>
-        <h3 style="font-size:21px;font-weight:800;margin-bottom:8px;letter-spacing:-0.02em;">Print Design</h3>
-        <p style="font-size:13px;line-height:1.75;color:var(--muted);margin-bottom:16px;">Business cards, brochures, flyers, posters, and collateral — print-ready to spec.</p>
-        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: PRINT-READY FILES</div>
+        <h3 style="font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">Brand Identity</h3>
+        <p style="font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:8px;">Logo, brand guidelines, typography systems, and visual identity built to last.</p>
+        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: BRAND GUIDE + ASSET KIT</div>
       </div>
 
+      <!-- Design -->
       <div class="svc-card reveal" style="transition-delay:0.12s;">
-        <div class="anno" style="margin-bottom:20px;opacity:0.38;">SPEC · 03</div>
-        <div style="margin-bottom:20px;">
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
-            <rect x="2" y="6" width="30" height="22" rx="3"/>
-            <line x1="2" y1="12" x2="32" y2="12"/>
-            <circle cx="7"  cy="9" r="1.5" fill="var(--bp-cyan)"/>
-            <circle cx="12" cy="9" r="1.5" fill="var(--bp-cyan)"/>
-            <rect x="6" y="16" width="10" height="7" rx="1"/>
-            <line x1="19" y1="18" x2="27" y2="18"/>
-            <line x1="19" y1="22" x2="25" y2="22"/>
+        <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 03</div>
+        <div style="margin-bottom:10px;">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
+            <rect x="3" y="3" width="28" height="28" rx="2"/><line x1="3" y1="12" x2="31" y2="12"/>
+            <line x1="14" y1="12" x2="14" y2="31"/><rect x="17" y="16" width="10" height="8" rx="1"/>
           </svg>
         </div>
-        <h3 style="font-size:21px;font-weight:800;margin-bottom:8px;letter-spacing:-0.02em;">Web Design</h3>
-        <p style="font-size:13px;line-height:1.75;color:var(--muted);margin-bottom:16px;">Landing pages, full sites, e-commerce — designed for conversion, built to your brand.</p>
-        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: LIVE WEBSITE + CODE</div>
+        <h3 style="font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">Graphic Design</h3>
+        <p style="font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:8px;">Visual compositions, illustrations, and creative assets tailored to your brand voice.</p>
+        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: DESIGN FILES + EXPORTS</div>
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.16s;">
-        <div class="anno" style="margin-bottom:20px;opacity:0.38;">SPEC · 04</div>
-        <div style="margin-bottom:20px;">
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
-            <polyline points="3,28 9,20 15,24 21,14 27,18 33,8"/>
-            <circle cx="9"  cy="20" r="2.5" fill="none"/>
-            <circle cx="15" cy="24" r="2.5" fill="none"/>
-            <circle cx="21" cy="14" r="2.5" fill="none"/>
-            <circle cx="27" cy="18" r="2.5" fill="none"/>
+        <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 04</div>
+        <div style="margin-bottom:10px;">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
+            <rect x="5" y="3" width="24" height="28" rx="2"/><line x1="10" y1="10" x2="24" y2="10"/>
+            <line x1="10" y1="15" x2="24" y2="15"/><line x1="10" y1="20" x2="18" y2="20"/>
+            <rect x="17" y="23" width="11" height="7" rx="1"/>
           </svg>
         </div>
-        <h3 style="font-size:21px;font-weight:800;margin-bottom:8px;letter-spacing:-0.02em;">Marketing</h3>
-        <p style="font-size:13px;line-height:1.75;color:var(--muted);margin-bottom:16px;">Social graphics, ad creative, email campaigns, and digital assets that drive results.</p>
-        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: CAMPAIGN ASSET PACK</div>
+        <h3 style="font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">Layout Design</h3>
+        <p style="font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:8px;">Business cards, brochures, flyers, posters, and collateral &mdash; pixel-perfect layouts.</p>
+        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: PRINT-READY FILES</div>
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.2s;">
-        <div class="anno" style="margin-bottom:20px;opacity:0.38;">SPEC · 05</div>
-        <div style="margin-bottom:20px;">
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
-            <rect x="3" y="4" width="28" height="18" rx="2"/>
-            <line x1="17" y1="22" x2="17" y2="32"/>
-            <line x1="11" y1="32" x2="23" y2="32"/>
-            <line x1="8"  y1="10" x2="26" y2="10"/>
-            <line x1="8"  y1="14" x2="18" y2="14"/>
+        <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 05</div>
+        <div style="margin-bottom:10px;">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
+            <rect x="4" y="4" width="26" height="18" rx="2"/><rect x="7" y="7" width="20" height="12" rx="1" stroke-dasharray="3 2"/>
+            <line x1="10" y1="26" x2="24" y2="26"/><line x1="12" y1="29" x2="22" y2="29"/>
           </svg>
         </div>
-        <h3 style="font-size:21px;font-weight:800;margin-bottom:8px;letter-spacing:-0.02em;">Signage</h3>
-        <p style="font-size:13px;line-height:1.75;color:var(--muted);margin-bottom:16px;">Vehicle wraps, storefront signs, banners, and environmental graphics.</p>
-        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: PRODUCTION FILES</div>
+        <h3 style="font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">Mockups</h3>
+        <p style="font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:8px;">Realistic product and presentation mockups that bring your designs to life before production.</p>
+        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: HIGH-RES MOCKUP FILES</div>
       </div>
 
       <div class="svc-card reveal" style="transition-delay:0.24s;">
-        <div class="anno" style="margin-bottom:20px;opacity:0.38;">SPEC · 06</div>
-        <div style="margin-bottom:20px;">
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
-            <path d="M17 3 L31 10 L31 24 L17 31 L3 24 L3 10 Z"/>
-            <line x1="17" y1="3"  x2="17" y2="31"/>
-            <line x1="3"  y1="10" x2="31" y2="10"/>
-            <line x1="3"  y1="24" x2="31" y2="24"/>
+        <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 06</div>
+        <div style="margin-bottom:10px;">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
+            <rect x="2" y="6" width="30" height="22" rx="3"/><line x1="2" y1="12" x2="32" y2="12"/>
+            <circle cx="7" cy="9" r="1.5" fill="var(--bp-cyan)"/><circle cx="12" cy="9" r="1.5" fill="var(--bp-cyan)"/>
+            <rect x="6" y="16" width="10" height="7" rx="1"/><line x1="19" y1="18" x2="27" y2="18"/><line x1="19" y1="22" x2="25" y2="22"/>
           </svg>
         </div>
-        <h3 style="font-size:21px;font-weight:800;margin-bottom:8px;letter-spacing:-0.02em;">Packaging</h3>
-        <p style="font-size:13px;line-height:1.75;color:var(--muted);margin-bottom:16px;">Product packaging that tells your story at unboxing — labels, boxes, bags, and more.</p>
-        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: DIELINE + ARTWORK</div>
+        <h3 style="font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">Web Design</h3>
+        <p style="font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:8px;">Landing pages, full sites, e-commerce &mdash; designed for conversion, built to your brand.</p>
+        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: LIVE WEBSITE + CODE</div>
+      </div>
+
+      <!-- Visuals -->
+      <div class="svc-card reveal" style="transition-delay:0.28s;">
+        <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 07</div>
+        <div style="margin-bottom:10px;">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
+            <rect x="3" y="5" width="28" height="24" rx="3"/><circle cx="12" cy="14" r="3"/>
+            <polyline points="3,25 10,18 16,22 22,15 31,22"/>
+          </svg>
+        </div>
+        <h3 style="font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">Photography</h3>
+        <p style="font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:8px;">Product photography, brand shoots, headshots, and event coverage &mdash; professionally lit and edited.</p>
+        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: EDITED PHOTO SET</div>
+      </div>
+
+      <div class="svc-card reveal" style="transition-delay:0.32s;">
+        <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 08</div>
+        <div style="margin-bottom:10px;">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
+            <rect x="3" y="6" width="28" height="22" rx="3"/><polygon points="14,12 14,26 26,19" fill="none"/>
+          </svg>
+        </div>
+        <h3 style="font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">Video Production</h3>
+        <p style="font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:8px;">Brand films, social reels, promo videos, and motion graphics that capture attention.</p>
+        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: EDITED VIDEO + ASSETS</div>
+      </div>
+
+      <div class="svc-card reveal" style="transition-delay:0.36s;">
+        <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 09</div>
+        <div style="margin-bottom:10px;">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
+            <polyline points="3,28 9,20 15,24 21,14 27,18 33,8"/>
+            <circle cx="9" cy="20" r="2.5" fill="none"/><circle cx="15" cy="24" r="2.5" fill="none"/>
+            <circle cx="21" cy="14" r="2.5" fill="none"/><circle cx="27" cy="18" r="2.5" fill="none"/>
+          </svg>
+        </div>
+        <h3 style="font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">Social Media Content</h3>
+        <p style="font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:8px;">Social graphics, ad creative, and digital assets optimized for every platform.</p>
+        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: CAMPAIGN ASSET PACK</div>
+      </div>
+
+      <div class="svc-card reveal" style="transition-delay:0.4s;">
+        <div class="anno" style="margin-bottom:10px;opacity:0.38;">SPEC &middot; 10</div>
+        <div style="margin-bottom:10px;">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4" stroke-linecap="round">
+            <path d="M17 4 L17 14 M17 14 L24 10 M17 14 L10 10"/>
+            <circle cx="17" cy="17" r="3"/>
+            <path d="M17 20 L17 30 M17 20 L24 24 M17 20 L10 24"/>
+          </svg>
+        </div>
+        <h3 style="font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">Brand Consulting</h3>
+        <p style="font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:8px;">Expert guidance on brand evolution, naming, messaging, and audience alignment.</p>
+        <div class="anno" style="opacity:0.35;font-size:9px;">DELIVERABLE: CONSULTING REPORT</div>
       </div>
 
     </div>
 
-    <div class="reveal" style="margin-top:44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
+    <div class="reveal" style="margin-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
       <div class="dim-line" style="flex:1;max-width:280px;">
         <div class="dl"></div><span class="dt">CUSTOM PACKAGES AVAILABLE</span><div class="dl"></div>
       </div>
-      <a href="#contact" class="btn btn-lime">Get a Custom Quote</a>
+      <a href="#" class="btn btn-lime" onclick="openPanel('panel-contact');return false;">Get a Custom Quote</a>
     </div>
 
   </div>
 </section>
 
+</div><!-- close panel-services -->
 
-<!-- ════════ WORK — SHEET 03 ════════ -->
-<section id="work" class="bp-light" style="padding:120px 48px;position:relative;z-index:2;">
+
+<!-- ════════ PRINTING SUB-PANELS ════════ -->
+
+<div id="panel-stickers" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
+
+  <!-- SVG pattern definitions -->
+  <svg width="0" height="0" style="position:absolute;">
+    <defs>
+      <!-- Die-Cut: diagonal lines -->
+      <pattern id="pat-diecut" width="7" height="7" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="7" x2="7" y2="0" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+      </pattern>
+      <!-- Rounded Corner: dots -->
+      <pattern id="pat-rounded" width="9" height="9" patternUnits="userSpaceOnUse">
+        <circle cx="4.5" cy="4.5" r="1.5" fill="rgba(255,255,255,0.55)"/>
+      </pattern>
+      <!-- Kiss Cut: grid -->
+      <pattern id="pat-kisscut" width="10" height="10" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="0" x2="10" y2="0" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+        <line x1="0" y1="0" x2="0" y2="10" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+      </pattern>
+      <!-- Decal: crosshatch dense -->
+      <pattern id="pat-decal" width="7" height="7" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="0" x2="7" y2="7" stroke="rgba(255,255,255,0.45)" stroke-width="0.9"/>
+        <line x1="7" y1="0" x2="0" y2="7" stroke="rgba(255,255,255,0.45)" stroke-width="0.9"/>
+      </pattern>
+      <!-- Oval: quad lines -->
+      <pattern id="pat-oval" width="20" height="20" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="0" x2="20" y2="0" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
+        <line x1="0" y1="0" x2="0" y2="20" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
+        <line x1="10" y1="0" x2="10" y2="20" stroke="rgba(255,255,255,0.18)" stroke-width="0.5"/>
+        <line x1="0" y1="10" x2="20" y2="10" stroke="rgba(255,255,255,0.18)" stroke-width="0.5"/>
+      </pattern>
+      <!-- Circle: plus/cross marks -->
+      <pattern id="pat-circle" width="16" height="16" patternUnits="userSpaceOnUse">
+        <line x1="8" y1="4" x2="8" y2="12" stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+        <line x1="4" y1="8" x2="12" y2="8" stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+      </pattern>
+      <!-- Rectangular: horizontal lines -->
+      <pattern id="pat-rect" width="20" height="5" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="2.5" x2="20" y2="2.5" stroke="rgba(255,255,255,0.5)" stroke-width="0.9"/>
+      </pattern>
+      <!-- Square: tight grid -->
+      <pattern id="pat-square" width="6" height="6" patternUnits="userSpaceOnUse">
+        <rect width="6" height="6" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+      </pattern>
+      <!-- Bumper: diamond -->
+      <pattern id="pat-bumper" width="10" height="10" patternUnits="userSpaceOnUse">
+        <polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="rgba(255,255,255,0.42)" stroke-width="0.8"/>
+      </pattern>
+      <!-- Clear: plus signs -->
+      <pattern id="pat-clear" width="14" height="14" patternUnits="userSpaceOnUse">
+        <line x1="7" y1="3" x2="7" y2="11" stroke="rgba(255,255,255,0.42)" stroke-width="0.8"/>
+        <line x1="3" y1="7" x2="11" y2="7" stroke="rgba(255,255,255,0.42)" stroke-width="0.8"/>
+      </pattern>
+      <!-- Transfer: zigzag -->
+      <pattern id="pat-transfer" width="10" height="6" patternUnits="userSpaceOnUse">
+        <polyline points="0,6 5,0 10,6" fill="none" stroke="rgba(255,255,255,0.48)" stroke-width="0.9"/>
+      </pattern>
+      <!-- Vinyl: chevron arrows -->
+      <pattern id="pat-vinyl" width="10" height="8" patternUnits="userSpaceOnUse">
+        <polyline points="0,4 5,0 10,4" fill="none" stroke="rgba(255,255,255,0.42)" stroke-width="0.8"/>
+        <polyline points="0,8 5,4 10,8" fill="none" stroke="rgba(255,255,255,0.42)" stroke-width="0.8"/>
+      </pattern>
+      <!-- Window: brick offset -->
+      <pattern id="pat-window" width="12" height="8" patternUnits="userSpaceOnUse">
+        <rect x="0" y="0" width="12" height="4" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.7"/>
+        <rect x="6" y="4" width="12" height="4" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.7"/>
+      </pattern>
+      <!-- Front Adhesive: dense dots -->
+      <pattern id="pat-frontadh" width="5" height="5" patternUnits="userSpaceOnUse">
+        <circle cx="1.2" cy="1.2" r="1" fill="rgba(255,255,255,0.4)"/>
+        <circle cx="3.7" cy="3.7" r="1" fill="rgba(255,255,255,0.4)"/>
+      </pattern>
+      <!-- Holographic: wavy -->
+      <pattern id="pat-holo" width="16" height="8" patternUnits="userSpaceOnUse">
+        <path d="M0,4 Q4,0 8,4 Q12,8 16,4" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.9"/>
+      </pattern>
+      <!-- Glitter: star scatter -->
+      <pattern id="pat-glitter" width="8" height="8" patternUnits="userSpaceOnUse">
+        <line x1="4" y1="1" x2="4" y2="7" stroke="rgba(255,255,255,0.38)" stroke-width="0.6"/>
+        <line x1="1" y1="4" x2="7" y2="4" stroke="rgba(255,255,255,0.38)" stroke-width="0.6"/>
+        <line x1="2" y1="2" x2="6" y2="6" stroke="rgba(255,255,255,0.25)" stroke-width="0.5"/>
+        <line x1="6" y1="2" x2="2" y2="6" stroke="rgba(255,255,255,0.25)" stroke-width="0.5"/>
+      </pattern>
+      <!-- Fabric: weave -->
+      <pattern id="pat-fabric" width="8" height="8" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="2" x2="8" y2="2" stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+        <line x1="0" y1="6" x2="8" y2="6" stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+        <line x1="2" y1="0" x2="2" y2="8" stroke="rgba(255,255,255,0.25)" stroke-width="0.5"/>
+        <line x1="6" y1="0" x2="6" y2="8" stroke="rgba(255,255,255,0.25)" stroke-width="0.5"/>
+      </pattern>
+      <!-- Floor: hexagons -->
+      <pattern id="pat-floor" width="12" height="10" patternUnits="userSpaceOnUse">
+        <polygon points="6,0 12,3 12,7 6,10 0,7 0,3" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+      </pattern>
+      <!-- QR Code: checker blocks -->
+      <pattern id="pat-qr" width="6" height="6" patternUnits="userSpaceOnUse">
+        <rect x="0" y="0" width="3" height="3" fill="rgba(255,255,255,0.4)"/>
+        <rect x="3" y="3" width="3" height="3" fill="rgba(255,255,255,0.4)"/>
+      </pattern>
+      <!-- Sheets: horizontal dashes -->
+      <pattern id="pat-sheets" width="10" height="5" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="2.5" x2="6" y2="2.5" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;align-items:center;justify-content:center;">
+    <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; STICKERS &amp; LABELS</div>
+
+    <div style="max-width:1100px;width:100%;margin:0 auto;text-align:center;">
+
+      <!-- Title -->
+      <h2 class="reveal" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(18px,2.5vw,28px);font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:var(--white);margin-bottom:24px;">Custom Stickers</h2>
+
+      <!-- 5×4 Grid -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px 18px;max-width:1000px;margin:0 auto 24px;">
+
+        <div class="bp-pat reveal" style="transition-delay:0.02s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-diecut)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Die-Cut<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.04s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-rounded)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Rounded Corner<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.06s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-kisscut)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Kiss Cut<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.08s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-decal)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Decal<br>Stickers</span>
+        </div>
+
+        <div class="bp-pat reveal" style="transition-delay:0.1s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-oval)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Oval<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.12s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-circle)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Circle<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.14s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-rect)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Rectangular<br>Sticker</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.16s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-square)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Square<br>Stickers</span>
+        </div>
+
+        <div class="bp-pat reveal" style="transition-delay:0.18s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-bumper)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Bumper<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.2s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-clear)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Clear<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.22s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-transfer)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Transfer<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.24s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-vinyl)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Vinyl<br>Lettering</span>
+        </div>
+
+        <div class="bp-pat reveal" style="transition-delay:0.26s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-window)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Window<br>Clings</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.28s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-frontadh)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Front Adhesive<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.3s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-holo)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Holographic<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.32s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-glitter)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Glitter<br>Stickers</span>
+        </div>
+
+        <div class="bp-pat reveal" style="transition-delay:0.34s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-fabric)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Fabric<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.36s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-floor)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Floor<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.38s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-qr)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">QR Code<br>Stickers</span>
+        </div>
+        <div class="bp-pat reveal" style="transition-delay:0.4s;">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="68" fill="url(#pat-sheets)" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/></svg>
+          <span class="bp-pat-label">Sticker<br>Sheets/Packs</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<div id="panel-signs" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
+  <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
+    <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; SIGNS &amp; DISPLAYS</div>
+    <div style="max-width:1280px;margin:0 auto;">
+      <div style="margin-bottom:64px;" class="reveal">
+        <div class="section-num">Printing</div>
+        <h2 style="font-size:clamp(40px,5.5vw,72px);font-weight:900;letter-spacing:-0.04em;margin-bottom:16px;">
+          Signs &amp;<br><span style="color:var(--bp-cyan);">Displays</span>
+        </h2>
+        <div class="dim-line" style="max-width:380px;">
+          <div class="dl"></div><span class="dt">STOREFRONT &amp; INTERIOR SIGNAGE</span><div class="dl"></div>
+        </div>
+      </div>
+      <p style="font-size:15px;line-height:1.8;color:var(--muted);max-width:680px;margin-bottom:48px;" class="reveal">Storefront signs, window graphics, A-frames, retractable banners, trade show displays, and point-of-sale signage. Designed to grab attention and built to last in any environment.</p>
+      <div class="reveal" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <a href="#" class="btn btn-lime" onclick="openPanel('panel-contact');return false;">Get a Custom Quote</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="panel-apparel" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
+  <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
+    <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; APPAREL</div>
+    <div style="max-width:1280px;margin:0 auto;">
+      <div style="margin-bottom:64px;" class="reveal">
+        <div class="section-num">Printing</div>
+        <h2 style="font-size:clamp(40px,5.5vw,72px);font-weight:900;letter-spacing:-0.04em;margin-bottom:16px;">
+          Custom<br><span style="color:var(--bp-cyan);">Apparel</span>
+        </h2>
+        <div class="dim-line" style="max-width:380px;">
+          <div class="dl"></div><span class="dt">SCREEN PRINT &amp; EMBROIDERY</span><div class="dl"></div>
+        </div>
+      </div>
+      <p style="font-size:15px;line-height:1.8;color:var(--muted);max-width:680px;margin-bottom:48px;" class="reveal">Custom t-shirts, hoodies, caps, uniforms, and branded merchandise. Screen printing, embroidery, DTG, and heat transfer options &mdash; from single pieces to bulk orders.</p>
+      <div class="reveal" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <a href="#" class="btn btn-lime" onclick="openPanel('panel-contact');return false;">Get a Custom Quote</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="panel-largeformat" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
+  <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
+    <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; LARGE FORMAT</div>
+    <div style="max-width:1280px;margin:0 auto;">
+      <div style="margin-bottom:64px;" class="reveal">
+        <div class="section-num">Printing</div>
+        <h2 style="font-size:clamp(40px,5.5vw,72px);font-weight:900;letter-spacing:-0.04em;margin-bottom:16px;">
+          Large Format<br><span style="color:var(--bp-cyan);">Graphics</span>
+        </h2>
+        <div class="dim-line" style="max-width:380px;">
+          <div class="dl"></div><span class="dt">BANNERS, WRAPS &amp; MURALS</span><div class="dl"></div>
+        </div>
+      </div>
+      <p style="font-size:15px;line-height:1.8;color:var(--muted);max-width:680px;margin-bottom:48px;" class="reveal">Vehicle wraps, wall murals, building banners, floor graphics, and oversized prints. High-resolution output at any scale &mdash; from storefront windows to fleet wraps.</p>
+      <div class="reveal" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <a href="#" class="btn btn-lime" onclick="openPanel('panel-contact');return false;">Get a Custom Quote</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="panel-events" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
+  <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
+    <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; EVENT GRAPHICS</div>
+    <div style="max-width:1280px;margin:0 auto;">
+      <div style="margin-bottom:64px;" class="reveal">
+        <div class="section-num">Printing</div>
+        <h2 style="font-size:clamp(40px,5.5vw,72px);font-weight:900;letter-spacing:-0.04em;margin-bottom:16px;">
+          Event<br><span style="color:var(--bp-cyan);">Graphics</span>
+        </h2>
+        <div class="dim-line" style="max-width:380px;">
+          <div class="dl"></div><span class="dt">TRADE SHOWS &amp; CONFERENCES</span><div class="dl"></div>
+        </div>
+      </div>
+      <p style="font-size:15px;line-height:1.8;color:var(--muted);max-width:680px;margin-bottom:48px;" class="reveal">Backdrops, step-and-repeats, booth graphics, table covers, pop-up displays, and directional signage. Everything you need to make a lasting impression at any event.</p>
+      <div class="reveal" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <a href="#" class="btn btn-lime" onclick="openPanel('panel-contact');return false;">Get a Custom Quote</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="panel-marketing" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
+  <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
+    <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; MARKETING MATERIALS</div>
+    <div style="max-width:1280px;margin:0 auto;">
+      <div style="margin-bottom:64px;" class="reveal">
+        <div class="section-num">Printing</div>
+        <h2 style="font-size:clamp(40px,5.5vw,72px);font-weight:900;letter-spacing:-0.04em;margin-bottom:16px;">
+          Marketing<br><span style="color:var(--bp-cyan);">Materials</span>
+        </h2>
+        <div class="dim-line" style="max-width:380px;">
+          <div class="dl"></div><span class="dt">BROCHURES, FLYERS &amp; MORE</span><div class="dl"></div>
+        </div>
+      </div>
+      <p style="font-size:15px;line-height:1.8;color:var(--muted);max-width:680px;margin-bottom:48px;" class="reveal">Business cards, brochures, flyers, postcards, catalogs, folders, and promotional collateral. Premium paper stocks and finishes &mdash; from spot UV to foil stamping.</p>
+      <div class="reveal" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <a href="#" class="btn btn-lime" onclick="openPanel('panel-contact');return false;">Get a Custom Quote</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="panel-packaging" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
+  <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
+    <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; PACKAGING</div>
+    <div style="max-width:1280px;margin:0 auto;">
+      <div style="margin-bottom:64px;" class="reveal">
+        <div class="section-num">Printing</div>
+        <h2 style="font-size:clamp(40px,5.5vw,72px);font-weight:900;letter-spacing:-0.04em;margin-bottom:16px;">
+          Custom<br><span style="color:var(--bp-cyan);">Packaging</span>
+        </h2>
+        <div class="dim-line" style="max-width:380px;">
+          <div class="dl"></div><span class="dt">BOXES, BAGS &amp; LABELS</span><div class="dl"></div>
+        </div>
+      </div>
+      <p style="font-size:15px;line-height:1.8;color:var(--muted);max-width:680px;margin-bottom:48px;" class="reveal">Product packaging that tells your story at unboxing &mdash; custom boxes, bags, wrapping paper, tissue paper, and product labels. From dieline design to production-ready artwork.</p>
+      <div class="reveal" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <a href="#" class="btn btn-lime" onclick="openPanel('panel-contact');return false;">Get a Custom Quote</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<!-- ════════ PROJECTS PANEL ════════ -->
+<div id="panel-projects" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">← HOME</button>
+
+<!-- ════════ PROJECTS — SHEET 06 ════════ -->
+<section id="projects" class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
   <div class="sheet-label" style="position:absolute;top:24px;right:48px;">SHEET 03 / 05 — PORTFOLIO LOG</div>
 
-  <div style="max-width:1280px;margin:0 auto;">
+  <div style="max-width:1280px;margin:0 auto;width:100%;">
 
-    <div style="margin-bottom:64px;" class="reveal">
-      <div class="section-num">03 — Selected Work</div>
-      <h2 style="font-size:clamp(40px,5.5vw,72px);font-weight:900;letter-spacing:-0.04em;margin-bottom:16px;">
-        Built by<br><span style="color:var(--brand);">Blueprint</span>
+    <div style="margin-bottom:24px;" class="reveal">
+      <div class="section-num">03 — Portfolio</div>
+      <h2 style="font-size:clamp(28px,4vw,48px);font-weight:900;letter-spacing:-0.04em;margin-bottom:8px;">
+        Built by <span style="color:var(--brand);">Blueprint</span>
       </h2>
       <div class="dim-line" style="max-width:280px;">
         <div class="dl"></div><span class="dt">RECENT PROJECT LOG</span><div class="dl"></div>
@@ -884,7 +1528,7 @@
 
     <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:14px;">
 
-      <div class="port-card reveal work-lg" style="grid-column:span 7;height:400px;transition-delay:0.04s;">
+      <div class="port-card reveal work-lg" style="grid-column:span 7;height:260px;transition-delay:0.04s;" onclick="openProject('project-meridian')">
         <div class="tile-bg"></div>
         <div class="tile-art">
           <svg width="220" height="180" viewBox="0 0 220 180" fill="none" stroke="#7ECFFF" stroke-width="1">
@@ -904,10 +1548,11 @@
         <div class="port-overlay">
           <span class="anno" style="margin-bottom:6px;opacity:0.65;">BRAND IDENTITY</span>
           <h3 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;">Meridian Properties</h3>
+          <span class="view-project-label">VIEW PROJECT →</span>
         </div>
       </div>
 
-      <div class="port-card reveal work-sm" style="grid-column:span 5;height:400px;transition-delay:0.08s;background:#0D1F7A;">
+      <div class="port-card reveal work-sm" style="grid-column:span 5;height:260px;transition-delay:0.08s;background:#0D1F7A;" onclick="openProject('project-apex')">
         <div class="tile-bg"></div>
         <div class="tile-art">
           <svg width="160" height="200" viewBox="0 0 160 200" fill="none" stroke="#7ECFFF" stroke-width="1">
@@ -924,10 +1569,11 @@
         <div class="port-overlay">
           <span class="anno" style="margin-bottom:6px;opacity:0.65;">PRINT DESIGN</span>
           <h3 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;">Apex Fitness Co.</h3>
+          <span class="view-project-label">VIEW PROJECT →</span>
         </div>
       </div>
 
-      <div class="port-card reveal work-sm" style="grid-column:span 5;height:340px;transition-delay:0.12s;background:#0A1860;">
+      <div class="port-card reveal work-sm" style="grid-column:span 5;height:220px;transition-delay:0.12s;background:#0A1860;" onclick="openProject('project-solstice')">
         <div class="tile-bg"></div>
         <div class="tile-art">
           <svg width="200" height="160" viewBox="0 0 200 160" fill="none" stroke="#7ECFFF" stroke-width="1">
@@ -945,10 +1591,11 @@
         <div class="port-overlay">
           <span class="anno" style="margin-bottom:6px;opacity:0.65;">WEB DESIGN</span>
           <h3 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;">Solstice Café</h3>
+          <span class="view-project-label">VIEW PROJECT →</span>
         </div>
       </div>
 
-      <div class="port-card reveal work-lg" style="grid-column:span 7;height:340px;transition-delay:0.16s;background:#0C1F82;">
+      <div class="port-card reveal work-lg" style="grid-column:span 7;height:220px;transition-delay:0.16s;background:#0C1F82;" onclick="openProject('project-harbor')">
         <div class="tile-bg"></div>
         <div class="tile-art">
           <svg width="300" height="160" viewBox="0 0 300 160" fill="none" stroke="#7ECFFF" stroke-width="1">
@@ -966,13 +1613,14 @@
         <div class="port-overlay">
           <span class="anno" style="margin-bottom:6px;opacity:0.65;">SIGNAGE + BRANDING</span>
           <h3 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;">Harbor District Co.</h3>
+          <span class="view-project-label">VIEW PROJECT →</span>
         </div>
       </div>
 
     </div>
 
-    <div class="reveal" style="margin-top:44px;text-align:center;">
-      <a href="#contact" class="btn btn-ghost" style="display:inline-flex;">
+    <div class="reveal" style="margin-top:16px;text-align:center;">
+      <a href="#" class="btn btn-ghost" style="display:inline-flex;" onclick="openPanel('panel-contact');return false;">
         View All Projects
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/></svg>
       </a>
@@ -982,8 +1630,15 @@
 </section>
 
 
+</div><!-- close panel-projects -->
+
+
+<!-- ════════ ABOUT PANEL ════════ -->
+<div id="panel-about" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">← HOME</button>
+
 <!-- ════════ ABOUT — SHEET 04 ════════ -->
-<section id="about" class="bp-dark" style="padding:120px 48px;position:relative;z-index:2;overflow:hidden;">
+<section id="about" class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;overflow:hidden;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
   <div class="sheet-label" style="position:absolute;top:24px;right:48px;">SHEET 04 / 05 — COMPANY PROFILE</div>
 
   <!-- watermark -->
@@ -993,21 +1648,21 @@
 
   <div style="max-width:1280px;margin:0 auto;position:relative;z-index:1;">
 
-    <div style="margin-bottom:64px;" class="reveal">
-      <div class="section-num">04 — About</div>
-      <h2 style="font-size:clamp(40px,5.5vw,72px);font-weight:900;letter-spacing:-0.04em;margin-bottom:16px;">
-        Who We<br><span style="color:var(--bp-cyan);">Are</span>
+    <div style="margin-bottom:20px;" class="reveal">
+      <div class="section-num">04 — About Us</div>
+      <h2 style="font-size:clamp(28px,4vw,48px);font-weight:900;letter-spacing:-0.04em;margin-bottom:8px;">
+        Who We <span style="color:var(--bp-cyan);">Are</span>
       </h2>
       <div class="dim-line" style="max-width:280px;">
         <div class="dl"></div><span class="dt">COMPANY COMPOSITION</span><div class="dl"></div>
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;" class="about-cols">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;" class="about-cols">
 
       <!-- Left: narrative + pillars -->
       <div>
-        <p class="reveal" style="font-size:18px;line-height:1.82;color:var(--muted);margin-bottom:48px;">
+        <p class="reveal" style="font-size:15px;line-height:1.7;color:var(--muted);margin-bottom:24px;">
           Blueprint is a full-service creative agency based in the DC Metro Area. We partner with businesses of all sizes to craft identities, systems, and experiences built to last — not just designed to impress.
         </p>
 
@@ -1108,49 +1763,56 @@
 </section>
 
 
+</div><!-- close panel-about -->
+
+
+<!-- ════════ CONTACT PANEL ════════ -->
+<div id="panel-contact" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">← HOME</button>
+
 <!-- ════════ CONTACT — SHEET 05 ════════ -->
-<section id="contact" class="bp-light" style="padding:120px 48px;position:relative;z-index:2;">
+<section id="contact" class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
   <div class="sheet-label" style="position:absolute;top:24px;right:48px;">SHEET 05 / 05 — ORDER FORM / SPECIFICATIONS</div>
 
   <div style="max-width:1280px;margin:0 auto;">
 
-    <div style="margin-bottom:64px;" class="reveal">
+    <div style="margin-bottom:20px;" class="reveal">
       <div class="section-num">05 — Contact</div>
-      <h2 style="font-size:clamp(40px,5.5vw,72px);font-weight:900;letter-spacing:-0.04em;margin-bottom:16px;">
-        Start Your<br><span style="color:var(--brand);">Project</span>
+      <h2 style="font-size:clamp(28px,4vw,48px);font-weight:900;letter-spacing:-0.04em;margin-bottom:8px;">
+        Start Your <span style="color:var(--brand);">Project</span>
       </h2>
       <div class="dim-line" style="max-width:340px;">
         <div class="dl"></div><span class="dt">SUBMIT PROJECT SPECIFICATIONS</span><div class="dl"></div>
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start;" class="cct-cols">
+    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:start;" class="cct-cols">
 
       <!-- Left: info callouts -->
       <div>
-        <div style="display:flex;flex-direction:column;gap:32px;margin-bottom:52px;">
+        <div style="display:flex;flex-direction:column;gap:20px;margin-bottom:24px;">
 
           <div class="reveal" style="transition-delay:0.04s;display:flex;align-items:flex-start;gap:16px;">
-            <div style="margin-top:3px;width:1px;height:50px;background:rgba(11,26,106,0.18);flex-shrink:0;"></div>
+            <div style="margin-top:3px;width:1px;height:50px;background:rgba(126,207,255,0.25);flex-shrink:0;"></div>
             <div>
               <span class="spec-label" style="margin-bottom:6px;">EMAIL →</span>
-              <span style="font-size:18px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;display:block;color:var(--light-text);">hello@blueprintcreative.co</span>
+              <span style="font-size:18px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;display:block;color:var(--white);">hello@blueprintcreative.co</span>
             </div>
           </div>
 
           <div class="reveal" style="transition-delay:0.09s;display:flex;align-items:flex-start;gap:16px;">
-            <div style="margin-top:3px;width:1px;height:50px;background:rgba(11,26,106,0.18);flex-shrink:0;"></div>
+            <div style="margin-top:3px;width:1px;height:50px;background:rgba(126,207,255,0.25);flex-shrink:0;"></div>
             <div>
               <span class="spec-label" style="margin-bottom:6px;">PHONE →</span>
-              <span style="font-size:18px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;display:block;color:var(--light-text);">(202) 555-0134</span>
+              <span style="font-size:18px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;display:block;color:var(--white);">(202) 555-0134</span>
             </div>
           </div>
 
           <div class="reveal" style="transition-delay:0.14s;display:flex;align-items:flex-start;gap:16px;">
-            <div style="margin-top:3px;width:1px;height:50px;background:rgba(11,26,106,0.18);flex-shrink:0;"></div>
+            <div style="margin-top:3px;width:1px;height:50px;background:rgba(126,207,255,0.25);flex-shrink:0;"></div>
             <div>
               <span class="spec-label" style="margin-bottom:6px;">LOCATION →</span>
-              <span style="font-size:18px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;display:block;color:var(--light-text);">Washington, DC Metro Area</span>
+              <span style="font-size:18px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;display:block;color:var(--white);">Washington, DC Metro Area</span>
             </div>
           </div>
 
@@ -1160,14 +1822,14 @@
           <span style="font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:rgba(34,197,94,0.6);letter-spacing:0.22em;">APPROVED</span>
         </div>
 
-        <div class="reveal" style="transition-delay:0.22s;padding:16px 20px;border:1px solid rgba(11,26,106,0.1);background:rgba(11,26,106,0.04);">
+        <div class="reveal" style="transition-delay:0.22s;padding:16px 20px;border:1px solid rgba(126,207,255,0.15);background:rgba(14,28,110,0.3);">
           <div class="anno" style="margin-bottom:7px;opacity:0.55;">RESPONSE TIME SPECIFICATION</div>
-          <p style="font-size:13px;color:var(--light-muted);line-height:1.7;">We respond to all inquiries within <strong style="color:var(--light-text);font-weight:600;">24 hours</strong>. Rush projects welcome.</p>
+          <p style="font-size:13px;color:var(--muted);line-height:1.7;">We respond to all inquiries within <strong style="color:var(--white);font-weight:600;">24 hours</strong>. Rush projects welcome.</p>
         </div>
       </div>
 
       <!-- Right: form panel -->
-      <div class="reveal" style="transition-delay:0.1s;border:1px solid rgba(11,26,106,0.12);padding:40px;background:rgba(255,255,255,0.8);position:relative;box-shadow:0 4px 32px rgba(11,26,106,0.07);">
+      <div class="reveal" style="transition-delay:0.1s;border:1px solid rgba(126,207,255,0.18);padding:24px;background:rgba(14,28,110,0.4);position:relative;box-shadow:0 4px 48px rgba(0,0,0,0.3);">
 
         <div style="position:absolute;top:-1px;left:-1px;width:14px;height:14px;border-top:1.5px solid var(--brand);border-left:1.5px solid var(--brand);opacity:0.45;"></div>
         <div style="position:absolute;top:-1px;right:-1px;width:14px;height:14px;border-top:1.5px solid var(--brand);border-right:1.5px solid var(--brand);opacity:0.45;"></div>
@@ -1176,7 +1838,7 @@
 
         <div class="anno" style="margin-bottom:30px;opacity:0.55;">PROJECT SPEC FORM — NO: BP-REQ-001</div>
 
-        <form style="display:flex;flex-direction:column;gap:26px;" onsubmit="return false;">
+        <form style="display:flex;flex-direction:column;gap:16px;" onsubmit="return false;">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
             <div><label class="spec-label">CLIENT NAME</label><input type="text" class="spec-field" placeholder="Your name"></div>
             <div><label class="spec-label">COMPANY</label><input type="text" class="spec-field" placeholder="Company name"></div>
@@ -1225,6 +1887,72 @@
     </div>
   </div>
 </footer>
+</div><!-- close panel-contact -->
+
+
+<!-- ════════ LOGIN PANEL ════════ -->
+<div id="panel-login" class="page-panel bp-dark">
+  <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
+
+  <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;align-items:center;justify-content:center;">
+    <div class="sheet-label" style="position:absolute;top:24px;right:48px;">AUTHENTICATION &mdash; LOGIN</div>
+
+    <div style="max-width:420px;width:100%;position:relative;">
+
+      <!-- Card with corner brackets -->
+      <div style="border:1px solid rgba(126,207,255,0.18);padding:40px;background:rgba(14,28,110,0.4);position:relative;box-shadow:0 4px 48px rgba(0,0,0,0.3);">
+
+        <div style="position:absolute;top:-1px;left:-1px;width:14px;height:14px;border-top:1.5px solid var(--brand);border-left:1.5px solid var(--brand);opacity:0.45;"></div>
+        <div style="position:absolute;top:-1px;right:-1px;width:14px;height:14px;border-top:1.5px solid var(--brand);border-right:1.5px solid var(--brand);opacity:0.45;"></div>
+        <div style="position:absolute;bottom:-1px;left:-1px;width:14px;height:14px;border-bottom:1.5px solid var(--brand);border-left:1.5px solid var(--brand);opacity:0.45;"></div>
+        <div style="position:absolute;bottom:-1px;right:-1px;width:14px;height:14px;border-bottom:1.5px solid var(--brand);border-right:1.5px solid var(--brand);opacity:0.45;"></div>
+
+        <!-- User icon -->
+        <div style="text-align:center;margin-bottom:24px;">
+          <div style="width:52px;height:52px;border:1.5px solid rgba(126,207,255,0.3);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;">
+            <svg width="24" height="24" viewBox="0 0 20 20" fill="none" stroke="var(--bp-cyan)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="10" cy="7" r="3.5"/>
+              <path d="M3 18c0-3.5 3.1-6 7-6s7 2.5 7 6"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="anno" style="margin-bottom:28px;opacity:0.55;text-align:center;">SPEC FORM &mdash; NO: BP-AUTH-001</div>
+
+        <form style="display:flex;flex-direction:column;gap:22px;" onsubmit="return false;">
+          <div>
+            <label class="spec-label">EMAIL ADDRESS</label>
+            <input type="email" class="spec-field" placeholder="your@email.com">
+          </div>
+          <div>
+            <label class="spec-label">PASSWORD</label>
+            <input type="password" class="spec-field" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;">
+            <a href="#" style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(126,207,255,0.5);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--bp-cyan)'" onmouseout="this.style.color='rgba(126,207,255,0.5)'">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-lime" style="width:100%;justify-content:center;">
+            Sign In
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="2" y1="6.5" x2="11" y2="6.5"/><polyline points="6.5,2 11,6.5 6.5,11"/></svg>
+          </button>
+        </form>
+
+        <div style="margin-top:24px;text-align:center;">
+          <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(190,210,255,0.4);">Don't have an account?</span>
+          <a href="#" style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bp-cyan);text-decoration:none;margin-left:6px;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Sign Up</a>
+        </div>
+
+      </div>
+
+      <div style="margin-top:16px;text-align:center;">
+        <span class="sheet-label">FORM: BP-AUTH-001 &middot; REV A</span>
+      </div>
+
+    </div>
+  </section>
+</div><!-- close panel-login -->
 
 
 <script>
@@ -1237,6 +1965,66 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Project detail panels
+  function openProject(id) {
+    const proj = document.getElementById(id);
+    proj.classList.add('open');
+    const back = proj.querySelector('.project-back');
+    if (back) back.classList.add('visible');
+    proj.scrollTop = 0;
+  }
+  function closeProject(btn) {
+    const proj = btn.closest('.project-panel');
+    proj.classList.remove('open');
+    btn.classList.remove('visible');
+  }
+
+  // Panel system
+  function openPanel(id) {
+    document.querySelectorAll('.page-panel.open').forEach(p => p.classList.remove('open'));
+    const panel = document.getElementById(id);
+    panel.classList.add('open');
+    panel.scrollTop = 0;
+    document.body.classList.add('panel-open');
+    // delay logo swap until panel has nearly finished sliding up (transition = 0.58s)
+    setTimeout(() => {
+      document.getElementById('logo-dark').style.display  = 'none';
+      document.getElementById('logo-white').style.display = 'block';
+      document.getElementById('site-logo').style.cursor   = 'pointer';
+    }, 500);
+  }
+  function closePanel(btn) {
+    const panel = btn ? btn.closest('.page-panel') : document.querySelector('.page-panel.open');
+    if (!panel) return;
+    panel.classList.remove('open');
+    document.body.classList.remove('panel-open');
+    // revert logo → dark, non-clickable
+    document.getElementById('logo-dark').style.display  = 'block';
+    document.getElementById('logo-white').style.display = 'none';
+    document.getElementById('site-logo').style.cursor   = 'default';
+  }
+  function logoClick() {
+    if (document.querySelector('.page-panel.open')) closePanel(null);
+  }
+
+  // Dropdown toggle
+  function toggleDropdown(e) {
+    e.preventDefault();
+    const dd = document.getElementById('printing-dropdown');
+    dd.classList.toggle('open');
+  }
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    const dd = document.getElementById('printing-dropdown');
+    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+  });
+  // Close dropdown when a dropdown item is clicked
+  document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.getElementById('printing-dropdown').classList.remove('open');
+    });
+  });
 
   // Mobile nav
   const ham = document.getElementById('ham');
@@ -1256,6 +2044,1348 @@
     document.getElementById('h3').style.transform = open ? 'translateY(-7px) rotate(-45deg)' : '';
   });
 </script>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     PROJECT DETAIL PANELS  (z-index 400, slide over work panel)
+     ════════════════════════════════════════════════════════════ -->
+
+<!-- ── PROJECT: MERIDIAN PROPERTIES ── -->
+<div id="project-meridian" class="project-panel">
+  <button class="project-back" onclick="closeProject(this)">← WORK</button>
+
+  <!-- TITLE BLOCK -->
+  <div class="proj-title-block">
+    <div class="proj-title-header">
+      <div class="proj-title-top">
+        <div>
+          <div class="proj-title-label">PROJECT DESIGNATION</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:var(--white);">MERIDIAN PROPERTIES</div>
+        </div>
+        <div class="proj-stamp"><span>APPROVED</span></div>
+      </div>
+      <div class="proj-title-grid">
+        <div class="proj-title-cell"><span class="proj-title-label">CLIENT</span><span class="proj-title-value">Meridian Properties LLC</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">INDUSTRY</span><span class="proj-title-value">Real Estate</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">SCOPE</span><span class="proj-title-value">Brand Identity · Print · Signage</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">DATE ISSUED</span><span class="proj-title-value">2024 Q3</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">REVISION</span><span class="proj-title-value">REV C — FINAL</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">DOCUMENT NO.</span><span class="proj-title-value">BP-MER-001</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 01: BLUEPRINT OVERVIEW -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">01</span>
+      <span class="proj-sec-title">Blueprint Overview — Concept Development</span>
+      <span class="proj-sec-meta">3 CONCEPTS · 2 REJECTED · 1 APPROVED</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <!-- Concept A — REJECTED -->
+      <div class="concept-box">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">CONCEPT A — REJECTED</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Construction lines -->
+          <line x1="120" y1="0" x2="120" y2="180" stroke="rgba(126,207,255,0.1)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <line x1="0" y1="90" x2="240" y2="90" stroke="rgba(126,207,255,0.1)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <!-- Serif M letterform -->
+          <path d="M60 140 L60 50 L120 110 L180 50 L180 140" stroke="rgba(190,210,255,0.55)" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+          <line x1="50" y1="140" x2="190" y2="140" stroke="rgba(190,210,255,0.25)" stroke-width="1"/>
+          <!-- Serif feet -->
+          <line x1="50" y1="140" x2="70" y2="140" stroke="rgba(190,210,255,0.55)" stroke-width="2.5"/>
+          <line x1="170" y1="140" x2="190" y2="140" stroke="rgba(190,210,255,0.55)" stroke-width="2.5"/>
+          <!-- Dimension lines -->
+          <line x1="30" y1="50" x2="30" y2="140" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="26" y1="50" x2="34" y2="50" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="26" y1="140" x2="34" y2="140" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="22" y="97" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">90pt</text>
+          <!-- Red X reject -->
+          <line x1="40" y1="30" x2="200" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <line x1="200" y1="30" x2="40" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <text x="120" y="175" font-family="Space Mono" font-size="7" fill="rgba(239,68,68,0.55)" text-anchor="middle">GENERIC — NO DISTINCTION</text>
+        </svg>
+      </div>
+      <!-- Concept B — REJECTED -->
+      <div class="concept-box">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">CONCEPT B — REJECTED</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Construction grid -->
+          <line x1="80" y1="40" x2="160" y2="40" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3"/>
+          <line x1="80" y1="80" x2="160" y2="80" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3"/>
+          <line x1="80" y1="120" x2="160" y2="120" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3"/>
+          <line x1="80" y1="40" x2="80" y2="140" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3"/>
+          <line x1="120" y1="40" x2="120" y2="140" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3"/>
+          <line x1="160" y1="40" x2="160" y2="140" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3"/>
+          <!-- 3×3 grid mark -->
+          <rect x="80" y="40" width="80" height="80" stroke="rgba(190,210,255,0.55)" stroke-width="2" fill="none"/>
+          <rect x="83" y="43" width="74" height="74" stroke="rgba(190,210,255,0.2)" stroke-width="0.5" fill="none"/>
+          <rect x="93" y="53" width="54" height="54" stroke="rgba(190,210,255,0.35)" stroke-width="1.5" fill="none"/>
+          <rect x="103" y="63" width="34" height="34" stroke="rgba(190,210,255,0.55)" stroke-width="2" fill="rgba(126,207,255,0.06)"/>
+          <!-- Red X -->
+          <line x1="40" y1="30" x2="200" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <line x1="200" y1="30" x2="40" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <text x="120" y="175" font-family="Space Mono" font-size="7" fill="rgba(239,68,68,0.55)" text-anchor="middle">LACKS AUTHORITY</text>
+        </svg>
+      </div>
+      <!-- Concept C — APPROVED -->
+      <div class="concept-box approved">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(34,197,94,0.7);margin-bottom:12px;">CONCEPT C — APPROVED ✓</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Construction lines -->
+          <line x1="120" y1="0" x2="120" y2="180" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <line x1="0" y1="90" x2="240" y2="90" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <circle cx="120" cy="90" r="45" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4" fill="none"/>
+          <!-- Architectural L/corner mark -->
+          <path d="M80 55 L80 135 L160 135" stroke="rgba(190,210,255,0.55)" stroke-width="3" fill="none" stroke-linejoin="miter"/>
+          <path d="M80 55 L100 55" stroke="rgba(190,210,255,0.55)" stroke-width="3" fill="none"/>
+          <rect x="80" y="55" width="6" height="6" fill="rgba(126,207,255,0.6)"/>
+          <!-- Inner corner detail -->
+          <path d="M95 70 L95 120 L145 120" stroke="rgba(126,207,255,0.25)" stroke-width="1" fill="none"/>
+          <!-- Dimension lines -->
+          <line x1="170" y1="55" x2="170" y2="135" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="166" y1="55" x2="174" y2="55" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="166" y1="135" x2="174" y2="135" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="178" y="98" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)">80pt</text>
+          <!-- Approval callout -->
+          <circle cx="196" cy="35" r="14" stroke="rgba(34,197,94,0.5)" stroke-width="1.5" fill="rgba(34,197,94,0.06)"/>
+          <text x="196" y="39" font-family="Space Mono" font-size="7" fill="rgba(34,197,94,0.8)" text-anchor="middle">OK</text>
+          <text x="120" y="175" font-family="Space Mono" font-size="7" fill="rgba(34,197,94,0.65)" text-anchor="middle">ARCHITECTURAL AUTHORITY — SELECTED</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 02: DESIGN SYSTEM -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">02</span>
+      <span class="proj-sec-title">Design System — Logo Construction · Color · Typography</span>
+      <span class="proj-sec-meta">REV C — FINAL</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
+      <!-- Logo construction -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">MARK CONSTRUCTION</div>
+        <div class="concept-box approved" style="padding:16px;">
+          <svg viewBox="0 0 200 200" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+            <!-- Guide circles -->
+            <circle cx="100" cy="100" r="80" stroke="rgba(126,207,255,0.1)" stroke-width="0.5" stroke-dasharray="3,3" fill="none"/>
+            <circle cx="100" cy="100" r="56" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3" fill="none"/>
+            <circle cx="100" cy="100" r="30" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3" fill="none"/>
+            <!-- Center axes -->
+            <line x1="100" y1="10" x2="100" y2="190" stroke="rgba(126,207,255,0.1)" stroke-width="0.5" stroke-dasharray="4,4"/>
+            <line x1="10" y1="100" x2="190" y2="100" stroke="rgba(126,207,255,0.1)" stroke-width="0.5" stroke-dasharray="4,4"/>
+            <line x1="28" y1="28" x2="172" y2="172" stroke="rgba(126,207,255,0.06)" stroke-width="0.5" stroke-dasharray="4,4"/>
+            <!-- Final mark -->
+            <path d="M56 46 L56 154 L144 154" stroke="rgba(190,210,255,0.7)" stroke-width="3.5" fill="none" stroke-linejoin="miter"/>
+            <path d="M56 46 L80 46" stroke="rgba(190,210,255,0.7)" stroke-width="3.5" fill="none"/>
+            <rect x="56" y="46" width="8" height="8" fill="rgba(46,58,224,0.9)"/>
+            <!-- Dimension arrows -->
+            <line x1="42" y1="46" x2="42" y2="154" stroke="rgba(46,58,224,0.45)" stroke-width="0.7"/>
+            <line x1="38" y1="46" x2="46" y2="46" stroke="rgba(46,58,224,0.45)" stroke-width="0.7"/>
+            <line x1="38" y1="154" x2="46" y2="154" stroke="rgba(46,58,224,0.45)" stroke-width="0.7"/>
+            <text x="36" y="102" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.35)" text-anchor="middle">108</text>
+            <text x="100" y="176" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.35)" text-anchor="middle">108pt grid unit</text>
+          </svg>
+        </div>
+      </div>
+      <!-- Color system -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">COLOR SYSTEM</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:stretch;gap:0;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#0B1A6A;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);letter-spacing:0.15em;">PMS 281 C</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#0B1A6A</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">NAVY — PRIMARY</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;gap:0;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#2E3AE0;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);letter-spacing:0.15em;">PMS 2728 C</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#2E3AE0</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">BRAND BLUE — ACCENT</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;gap:0;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#7ECFFF;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);letter-spacing:0.15em;">PMS 291 C</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#7ECFFF</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">CYAN — SECONDARY</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;gap:0;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#FFFFFF;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);letter-spacing:0.15em;">WHITE</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#FFFFFF</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">NEUTRAL — REVERSE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Type scale -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">TYPOGRAPHY SCALE</div>
+        <div style="border:1px solid rgba(126,207,255,0.15);">
+          <div style="padding:10px 14px;border-bottom:1px solid rgba(126,207,255,0.1);display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:900;color:var(--white);letter-spacing:-0.03em;">Aa</span>
+            <span style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(126,207,255,0.35);">DISPLAY · 48/72 · 900</span>
+          </div>
+          <div style="padding:8px 14px;border-bottom:1px solid rgba(126,207,255,0.1);display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:700;color:var(--white);">Aa</span>
+            <span style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(126,207,255,0.35);">H1 · 32/40 · 700</span>
+          </div>
+          <div style="padding:8px 14px;border-bottom:1px solid rgba(126,207,255,0.1);display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:var(--white);">Aa</span>
+            <span style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(126,207,255,0.35);">H2 · 20/28 · 600</span>
+          </div>
+          <div style="padding:8px 14px;border-bottom:1px solid rgba(126,207,255,0.1);display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:400;color:rgba(190,210,255,0.7);">Aa</span>
+            <span style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(126,207,255,0.35);">BODY · 15/24 · 400</span>
+          </div>
+          <div style="padding:8px 14px;display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:rgba(126,207,255,0.5);">Aa</span>
+            <span style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(126,207,255,0.35);">CAPTION · 10/16 · MONO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 03: PRODUCTION -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">03</span>
+      <span class="proj-sec-title">Production — Dimensioned Technical Drawings</span>
+      <span class="proj-sec-meta">SCALE: NOT TO SCALE · ALL DIMS IN INCHES</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <!-- Business card -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE A — BUSINESS CARD</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Card outline -->
+          <rect x="20" y="30" width="154" height="88" rx="2" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(11,26,106,0.3)"/>
+          <!-- Bleed marks -->
+          <line x1="14" y1="30" x2="8" y2="30" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="14" y1="118" x2="8" y2="118" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="174" y1="30" x2="180" y2="30" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="174" y1="118" x2="180" y2="118" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <!-- Safe area -->
+          <rect x="26" y="36" width="142" height="76" stroke="rgba(126,207,255,0.12)" stroke-width="0.5" stroke-dasharray="3,3" fill="none"/>
+          <!-- Mark placeholder -->
+          <path d="M36 62 L36 96 L60 96" stroke="rgba(190,210,255,0.5)" stroke-width="2" fill="none"/>
+          <path d="M36 62 L46 62" stroke="rgba(190,210,255,0.5)" stroke-width="2" fill="none"/>
+          <!-- Text lines -->
+          <rect x="68" y="55" width="80" height="6" rx="1" fill="rgba(190,210,255,0.2)"/>
+          <rect x="68" y="66" width="55" height="4" rx="1" fill="rgba(190,210,255,0.12)"/>
+          <rect x="68" y="75" width="70" height="4" rx="1" fill="rgba(190,210,255,0.12)"/>
+          <rect x="68" y="84" width="50" height="4" rx="1" fill="rgba(126,207,255,0.15)"/>
+          <!-- Dimension width -->
+          <line x1="20" y1="128" x2="174" y2="128" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="20" y1="124" x2="20" y2="132" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="174" y1="124" x2="174" y2="132" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="97" y="143" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">3.5"</text>
+          <!-- Dimension height -->
+          <line x1="190" y1="30" x2="190" y2="118" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="186" y1="30" x2="194" y2="30" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="186" y1="118" x2="194" y2="118" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="205" y="78" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">2"</text>
+          <text x="97" y="155" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.35)" text-anchor="middle">BUSINESS CARD · 3.5" × 2" · CMYK OFFSET</text>
+        </svg>
+      </div>
+      <!-- Letterhead -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE B — LETTERHEAD</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Letter outline (8.5×11 proportional) -->
+          <rect x="50" y="8" width="88" height="114" rx="1" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(11,26,106,0.2)"/>
+          <!-- Header band -->
+          <rect x="50" y="8" width="88" height="22" fill="rgba(11,26,106,0.6)"/>
+          <!-- Mark in header -->
+          <path d="M57 16 L57 24 L68 24" stroke="rgba(190,210,255,0.5)" stroke-width="1.5" fill="none"/>
+          <path d="M57 16 L62 16" stroke="rgba(190,210,255,0.5)" stroke-width="1.5" fill="none"/>
+          <!-- Company name -->
+          <rect x="72" y="13" width="50" height="5" rx="1" fill="rgba(190,210,255,0.3)"/>
+          <!-- Body lines -->
+          <rect x="58" y="40" width="72" height="3" rx="1" fill="rgba(190,210,255,0.15)"/>
+          <rect x="58" y="48" width="68" height="3" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="58" y="56" width="72" height="3" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="58" y="64" width="60" height="3" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="58" y="80" width="72" height="3" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="58" y="88" width="55" height="3" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <!-- Footer line -->
+          <line x1="58" y1="115" x2="130" y2="115" stroke="rgba(126,207,255,0.2)" stroke-width="0.5"/>
+          <rect x="58" y="117" width="72" height="2" rx="1" fill="rgba(126,207,255,0.1)"/>
+          <!-- Dimensions -->
+          <line x1="150" y1="8" x2="150" y2="122" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="146" y1="8" x2="154" y2="8" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="146" y1="122" x2="154" y2="122" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="170" y="68" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">11"</text>
+          <line x1="50" y1="132" x2="138" y2="132" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="50" y1="128" x2="50" y2="136" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="138" y1="128" x2="138" y2="136" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="94" y="147" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">8.5"</text>
+          <text x="110" y="158" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.35)" text-anchor="middle">LETTERHEAD · 8.5" × 11" · 80LB TEXT</text>
+        </svg>
+      </div>
+      <!-- Building sign -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE C — BUILDING SIGN</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sign cabinet -->
+          <rect x="10" y="50" width="200" height="55" rx="2" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(11,26,106,0.35)"/>
+          <!-- Side depth -->
+          <path d="M10 50 L6 45 L206 45 L210 50" stroke="rgba(190,210,255,0.3)" stroke-width="1" fill="rgba(11,26,106,0.2)"/>
+          <path d="M210 50 L210 105 L206 110" stroke="rgba(190,210,255,0.3)" stroke-width="1" fill="none"/>
+          <!-- Mark on sign -->
+          <path d="M25 80 L25 94 L44 94" stroke="rgba(190,210,255,0.6)" stroke-width="2.5" fill="none"/>
+          <path d="M25 80 L34 80" stroke="rgba(190,210,255,0.6)" stroke-width="2.5" fill="none"/>
+          <!-- Company name text area -->
+          <rect x="52" y="71" width="100" height="9" rx="1" fill="rgba(190,210,255,0.25)"/>
+          <rect x="52" y="85" width="70" height="5" rx="1" fill="rgba(126,207,255,0.12)"/>
+          <!-- Mounting points -->
+          <circle cx="22" cy="52" r="2.5" stroke="rgba(126,207,255,0.4)" stroke-width="0.7" fill="none"/>
+          <circle cx="198" cy="52" r="2.5" stroke="rgba(126,207,255,0.4)" stroke-width="0.7" fill="none"/>
+          <circle cx="22" cy="108" r="2.5" stroke="rgba(126,207,255,0.4)" stroke-width="0.7" fill="none"/>
+          <circle cx="198" cy="108" r="2.5" stroke="rgba(126,207,255,0.4)" stroke-width="0.7" fill="none"/>
+          <!-- Dimension width -->
+          <line x1="10" y1="122" x2="210" y2="122" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="10" y1="118" x2="10" y2="126" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="210" y1="118" x2="210" y2="126" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="110" y="137" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">48"</text>
+          <!-- Height -->
+          <line x1="3" y1="50" x2="3" y2="105" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="0" y1="50" x2="6" y2="50" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="0" y1="105" x2="6" y2="105" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="3" y="80" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle" transform="rotate(-90 3 80)">8"</text>
+          <text x="110" y="150" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.35)" text-anchor="middle">BUILDING SIGN · 48" × 8" · ALUMINUM CABINET</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 04: IMPACT -->
+  <div class="proj-section" style="border-bottom:none;">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">04</span>
+      <span class="proj-sec-title">Impact — Results &amp; Metrics</span>
+      <span class="proj-sec-meta">POST-LAUNCH · 90 DAY REVIEW</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;">
+      <div class="proj-stat">
+        <div class="proj-stat-num">+68%</div>
+        <span class="proj-stat-label">BRAND RECOGNITION</span>
+        <div class="proj-stat-desc">Unaided recall in target market survey</div>
+      </div>
+      <div class="proj-stat">
+        <div class="proj-stat-num">+34%</div>
+        <span class="proj-stat-label">LEAD CONVERSION</span>
+        <div class="proj-stat-desc">Quarter-over-quarter sales inquiry increase</div>
+      </div>
+      <div class="proj-stat">
+        <div class="proj-stat-num">3 WK</div>
+        <span class="proj-stat-label">DELIVERY</span>
+        <div class="proj-stat-desc">Concept to final files, on schedule</div>
+      </div>
+      <div class="proj-stat">
+        <div class="proj-stat-num">100%</div>
+        <span class="proj-stat-label">SATISFACTION</span>
+        <div class="proj-stat-desc">Client approval on first production run</div>
+      </div>
+    </div>
+    <!-- Doc footer -->
+    <div style="border-top:1px solid rgba(126,207,255,0.1);padding-top:20px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.3);letter-spacing:0.14em;">BLUEPRINT CREATIVE AGENCY · DC METRO AREA · BLUEPRINTCREATES.COM</div>
+      <div class="proj-stamp" style="transform:rotate(2deg);"><span>DELIVERED</span></div>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.3);letter-spacing:0.14em;">BP-MER-001 · SHEET 04/04</div>
+    </div>
+  </div>
+</div><!-- /project-meridian -->
+
+<!-- ── PROJECT: APEX FITNESS CO. ── -->
+<div id="project-apex" class="project-panel">
+  <button class="project-back" onclick="closeProject(this)">← WORK</button>
+
+  <div class="proj-title-block">
+    <div class="proj-title-header">
+      <div class="proj-title-top">
+        <div>
+          <div class="proj-title-label">PROJECT DESIGNATION</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:var(--white);">APEX FITNESS CO.</div>
+        </div>
+        <div class="proj-stamp"><span>APPROVED</span></div>
+      </div>
+      <div class="proj-title-grid">
+        <div class="proj-title-cell"><span class="proj-title-label">CLIENT</span><span class="proj-title-value">Apex Fitness Co.</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">INDUSTRY</span><span class="proj-title-value">Health &amp; Fitness</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">SCOPE</span><span class="proj-title-value">Print Design · Collateral</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">DATE ISSUED</span><span class="proj-title-value">2024 Q4</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">REVISION</span><span class="proj-title-value">REV B — FINAL</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">DOCUMENT NO.</span><span class="proj-title-value">BP-APX-002</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 Blueprint Overview -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">01</span>
+      <span class="proj-sec-title">Blueprint Overview — Concept Development</span>
+      <span class="proj-sec-meta">3 CONCEPTS · 2 REJECTED · 1 APPROVED</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <!-- Concept A rejected -->
+      <div class="concept-box">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">CONCEPT A — REJECTED</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <line x1="120" y1="0" x2="120" y2="180" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <!-- Thin condensed wordmark -->
+          <text x="120" y="80" font-family="'Space Mono',monospace" font-size="22" font-weight="400" fill="rgba(190,210,255,0.55)" text-anchor="middle" letter-spacing="8">APEX</text>
+          <text x="120" y="105" font-family="'Space Mono',monospace" font-size="10" font-weight="400" fill="rgba(190,210,255,0.3)" text-anchor="middle" letter-spacing="12">FITNESS</text>
+          <line x1="60" y1="112" x2="180" y2="112" stroke="rgba(190,210,255,0.2)" stroke-width="0.7"/>
+          <!-- Dimension -->
+          <line x1="40" y1="60" x2="40" y2="108" stroke="rgba(46,58,224,0.4)" stroke-width="0.7"/>
+          <text x="28" y="86" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.35)" text-anchor="middle">48pt</text>
+          <!-- Red X -->
+          <line x1="40" y1="30" x2="200" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <line x1="200" y1="30" x2="40" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <text x="120" y="175" font-family="Space Mono" font-size="7" fill="rgba(239,68,68,0.55)" text-anchor="middle">LACKS ENERGY</text>
+        </svg>
+      </div>
+      <!-- Concept B rejected -->
+      <div class="concept-box">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">CONCEPT B — REJECTED</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <line x1="120" y1="0" x2="120" y2="180" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <!-- Stacked text emblem -->
+          <rect x="70" y="38" width="100" height="90" stroke="rgba(190,210,255,0.4)" stroke-width="1.5" fill="none"/>
+          <rect x="70" y="38" width="100" height="28" fill="rgba(209,32,37,0.15)"/>
+          <text x="120" y="57" font-family="'Space Mono',monospace" font-size="14" font-weight="700" fill="rgba(190,210,255,0.6)" text-anchor="middle" letter-spacing="4">APEX</text>
+          <line x1="70" y1="66" x2="170" y2="66" stroke="rgba(126,207,255,0.2)" stroke-width="0.5"/>
+          <text x="120" y="85" font-family="'Space Mono',monospace" font-size="9" fill="rgba(190,210,255,0.4)" text-anchor="middle" letter-spacing="3">FITNESS</text>
+          <text x="120" y="100" font-family="'Space Mono',monospace" font-size="7" fill="rgba(190,210,255,0.3)" text-anchor="middle" letter-spacing="2">CO.</text>
+          <line x1="85" y1="110" x2="155" y2="110" stroke="rgba(126,207,255,0.2)" stroke-width="0.5"/>
+          <text x="120" y="122" font-family="'Space Mono',monospace" font-size="6" fill="rgba(190,210,255,0.25)" text-anchor="middle" letter-spacing="1">EST. 2019</text>
+          <!-- Red X -->
+          <line x1="40" y1="30" x2="200" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <line x1="200" y1="30" x2="40" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <text x="120" y="175" font-family="Space Mono" font-size="7" fill="rgba(239,68,68,0.55)" text-anchor="middle">TOO CORPORATE</text>
+        </svg>
+      </div>
+      <!-- Concept C approved -->
+      <div class="concept-box approved">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(34,197,94,0.7);margin-bottom:12px;">CONCEPT C — APPROVED ✓</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <line x1="120" y1="0" x2="120" y2="180" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <line x1="0" y1="90" x2="240" y2="90" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <!-- Shield construction -->
+          <polygon points="120,30 160,50 165,100 120,140 75,100 80,50" stroke="rgba(126,207,255,0.1)" stroke-width="0.5" stroke-dasharray="3,3" fill="none"/>
+          <!-- Bold geometric shield -->
+          <polygon points="120,34 158,52 162,98 120,136 78,98 82,52" stroke="rgba(190,210,255,0.55)" stroke-width="2.5" fill="rgba(209,32,37,0.12)"/>
+          <!-- Inner shield -->
+          <polygon points="120,46 148,60 151,94 120,122 89,94 92,60" stroke="rgba(190,210,255,0.25)" stroke-width="1" fill="none"/>
+          <!-- A letterform in shield -->
+          <path d="M107 110 L120 62 L133 110 M111 95 L129 95" stroke="rgba(190,210,255,0.7)" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+          <!-- Approval circle -->
+          <circle cx="196" cy="35" r="14" stroke="rgba(34,197,94,0.5)" stroke-width="1.5" fill="rgba(34,197,94,0.06)"/>
+          <text x="196" y="39" font-family="Space Mono" font-size="7" fill="rgba(34,197,94,0.8)" text-anchor="middle">OK</text>
+          <!-- Dimension -->
+          <line x1="168" y1="34" x2="168" y2="136" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="164" y1="34" x2="172" y2="34" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="164" y1="136" x2="172" y2="136" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="183" y="88" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)">102pt</text>
+          <text x="120" y="175" font-family="Space Mono" font-size="7" fill="rgba(34,197,94,0.65)" text-anchor="middle">GEOMETRIC CREST — SELECTED</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 Design System -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">02</span>
+      <span class="proj-sec-title">Design System — Shield Construction · Color · Typography</span>
+      <span class="proj-sec-meta">REV B — FINAL</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
+      <!-- Shield construction -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">SHIELD CONSTRUCTION</div>
+        <div class="concept-box approved" style="padding:16px;">
+          <svg viewBox="0 0 200 200" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="80" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3" fill="none"/>
+            <line x1="100" y1="10" x2="100" y2="190" stroke="rgba(126,207,255,0.1)" stroke-width="0.5" stroke-dasharray="4,4"/>
+            <line x1="10" y1="100" x2="190" y2="100" stroke="rgba(126,207,255,0.1)" stroke-width="0.5" stroke-dasharray="4,4"/>
+            <!-- Bounding square -->
+            <rect x="32" y="28" width="136" height="144" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3" fill="none"/>
+            <!-- Shield form -->
+            <polygon points="100,32 164,56 168,116 100,172 32,116 36,56" stroke="rgba(190,210,255,0.65)" stroke-width="2.5" fill="rgba(209,32,37,0.1)"/>
+            <polygon points="100,48 148,68 151,112 100,156 49,112 52,68" stroke="rgba(190,210,255,0.2)" stroke-width="1" fill="none"/>
+            <!-- A form -->
+            <path d="M82 140 L100 72 L118 140 M86 118 L114 118" stroke="rgba(190,210,255,0.7)" stroke-width="3" fill="none"/>
+            <!-- Dimension annotations -->
+            <line x1="18" y1="28" x2="18" y2="172" stroke="rgba(46,58,224,0.45)" stroke-width="0.7"/>
+            <line x1="14" y1="28" x2="22" y2="28" stroke="rgba(46,58,224,0.45)" stroke-width="0.7"/>
+            <line x1="14" y1="172" x2="22" y2="172" stroke="rgba(46,58,224,0.45)" stroke-width="0.7"/>
+            <text x="10" y="102" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.35)" text-anchor="middle">144</text>
+          </svg>
+        </div>
+      </div>
+      <!-- Color -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">ATHLETIC COLOR PALETTE</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:stretch;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#D12025;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);">PMS 185 C</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#D12025</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">APEX RED — PRIMARY</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#1A1A1A;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);">PROCESS BLACK</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#1A1A1A</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">CHARCOAL — SECONDARY</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#FFFFFF;border-right:1px solid rgba(126,207,255,0.1);flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);">WHITE</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#FFFFFF</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">NEUTRAL — REVERSE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Type -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">CONDENSED TYPE SCALE</div>
+        <div style="border:1px solid rgba(126,207,255,0.15);">
+          <div style="padding:10px 14px;border-bottom:1px solid rgba(126,207,255,0.1);display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--white);letter-spacing:-0.02em;">APEX</span>
+            <span style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(126,207,255,0.35);">DISPLAY · 64PT · 700</span>
+          </div>
+          <div style="padding:8px 14px;border-bottom:1px solid rgba(126,207,255,0.1);display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--white);">HEAD</span>
+            <span style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(126,207,255,0.35);">H1 · 36PT · 700</span>
+          </div>
+          <div style="padding:8px 14px;border-bottom:1px solid rgba(126,207,255,0.1);display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--white);">SUBHEAD</span>
+            <span style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(126,207,255,0.35);">H2 · 18PT · 700</span>
+          </div>
+          <div style="padding:8px 14px;display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-family:'Space Mono',monospace;font-size:9px;font-weight:400;color:rgba(190,210,255,0.6);">Body copy text</span>
+            <span style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(126,207,255,0.35);">BODY · 12PT · 400</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 Production -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">03</span>
+      <span class="proj-sec-title">Production — Dimensioned Technical Drawings</span>
+      <span class="proj-sec-meta">PRINT RUN: 5,000 UNITS · CMYK OFFSET</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <!-- Brochure -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE A — BROCHURE SPREAD</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Left page -->
+          <rect x="10" y="20" width="90" height="116" rx="1" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(209,32,37,0.08)"/>
+          <!-- Right page -->
+          <rect x="102" y="20" width="108" height="116" rx="1" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(11,26,106,0.2)"/>
+          <!-- Spine -->
+          <line x1="100" y1="20" x2="100" y2="136" stroke="rgba(126,207,255,0.2)" stroke-width="1" stroke-dasharray="2,2"/>
+          <!-- Content placeholders -->
+          <rect x="16" y="30" width="78" height="50" fill="rgba(209,32,37,0.12)"/>
+          <polygon points="35,55 55,35 75,55" stroke="rgba(190,210,255,0.4)" stroke-width="1" fill="none"/>
+          <rect x="16" y="86" width="52" height="5" rx="1" fill="rgba(190,210,255,0.2)"/>
+          <rect x="16" y="95" width="78" height="3" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="16" y="102" width="65" height="3" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="16" y="109" width="72" height="3" rx="1" fill="rgba(190,210,255,0.08)"/>
+          <!-- Right page content -->
+          <rect x="110" y="28" width="92" height="60" rx="1" fill="rgba(190,210,255,0.06)"/>
+          <rect x="110" y="95" width="70" height="5" rx="1" fill="rgba(190,210,255,0.2)"/>
+          <rect x="110" y="105" width="88" height="3" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="110" y="112" width="76" height="3" rx="1" fill="rgba(190,210,255,0.08)"/>
+          <!-- Dimensions -->
+          <line x1="10" y1="146" x2="210" y2="146" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="10" y1="142" x2="10" y2="150" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="210" y1="142" x2="210" y2="150" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="110" y="158" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">8.5" × 11" SPREAD · 17" × 11" OPEN</text>
+        </svg>
+      </div>
+      <!-- Poster -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE B — EVENT POSTER</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Poster: 18×24 -->
+          <rect x="70" y="5" width="80" height="140" rx="1" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(11,26,106,0.2)"/>
+          <!-- Header red band -->
+          <rect x="70" y="5" width="80" height="35" fill="rgba(209,32,37,0.15)"/>
+          <!-- Shield placeholder -->
+          <polygon points="110,10 128,17 130,36 110,50 90,36 92,17" stroke="rgba(190,210,255,0.4)" stroke-width="1" fill="none"/>
+          <path d="M103 42 L110 20 L117 42 M105 35 L115 35" stroke="rgba(190,210,255,0.35)" stroke-width="1.5" fill="none"/>
+          <!-- Text blocks -->
+          <rect x="76" y="52" width="68" height="10" rx="1" fill="rgba(190,210,255,0.25)"/>
+          <rect x="80" y="66" width="60" height="5" rx="1" fill="rgba(190,210,255,0.12)"/>
+          <!-- Image block -->
+          <rect x="76" y="78" width="68" height="40" fill="rgba(190,210,255,0.06)"/>
+          <line x1="76" y1="78" x2="144" y2="118" stroke="rgba(190,210,255,0.08)" stroke-width="0.5"/>
+          <line x1="144" y1="78" x2="76" y2="118" stroke="rgba(190,210,255,0.08)" stroke-width="0.5"/>
+          <!-- Footer text -->
+          <rect x="80" y="125" width="60" height="3" rx="1" fill="rgba(126,207,255,0.1)"/>
+          <rect x="84" y="132" width="52" height="3" rx="1" fill="rgba(126,207,255,0.08)"/>
+          <!-- Bleed marks -->
+          <line x1="64" y1="5" x2="58" y2="5" stroke="rgba(46,58,224,0.4)" stroke-width="0.7"/>
+          <line x1="64" y1="145" x2="58" y2="145" stroke="rgba(46,58,224,0.4)" stroke-width="0.7"/>
+          <line x1="156" y1="5" x2="162" y2="5" stroke="rgba(46,58,224,0.4)" stroke-width="0.7"/>
+          <line x1="156" y1="145" x2="162" y2="145" stroke="rgba(46,58,224,0.4)" stroke-width="0.7"/>
+          <!-- Dimensions -->
+          <line x1="168" y1="5" x2="168" y2="145" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="164" y1="5" x2="172" y2="5" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="164" y1="145" x2="172" y2="145" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="185" y="78" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">24"</text>
+          <text x="110" y="158" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.35)" text-anchor="middle">POSTER · 18" × 24" · FULL BLEED</text>
+        </svg>
+      </div>
+      <!-- Decal -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE C — LOCKER DECAL</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Square decal -->
+          <rect x="70" y="30" width="80" height="80" rx="4" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(11,26,106,0.25)"/>
+          <!-- Inner shield -->
+          <polygon points="110,38 138,50 140,88 110,106 80,88 82,50" stroke="rgba(190,210,255,0.45)" stroke-width="1.5" fill="rgba(209,32,37,0.1)"/>
+          <path d="M101 94 L110 58 L119 94 M103 80 L117 80" stroke="rgba(190,210,255,0.6)" stroke-width="2" fill="none"/>
+          <!-- Die cut line -->
+          <rect x="67" y="27" width="86" height="86" rx="6" stroke="rgba(209,32,37,0.3)" stroke-width="0.7" stroke-dasharray="3,3" fill="none"/>
+          <!-- Die cut label -->
+          <text x="110" y="22" font-family="Space Mono" font-size="6" fill="rgba(209,32,37,0.45)" text-anchor="middle">DIE CUT LINE</text>
+          <!-- Dimensions -->
+          <line x1="70" y1="120" x2="150" y2="120" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="70" y1="116" x2="70" y2="124" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="150" y1="116" x2="150" y2="124" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="110" y="135" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">3"</text>
+          <line x1="162" y1="30" x2="162" y2="110" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="158" y1="30" x2="166" y2="30" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="158" y1="110" x2="166" y2="110" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="178" y="73" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">3"</text>
+          <text x="110" y="155" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.35)" text-anchor="middle">DECAL · 3" × 3" · VINYL DIE-CUT</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 Impact -->
+  <div class="proj-section" style="border-bottom:none;">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">04</span>
+      <span class="proj-sec-title">Impact — Results &amp; Metrics</span>
+      <span class="proj-sec-meta">POST-LAUNCH · TRADE SHOW SEASON</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;">
+      <div class="proj-stat"><div class="proj-stat-num">5K</div><span class="proj-stat-label">PRINT RUN</span><div class="proj-stat-desc">Units produced across all collateral formats</div></div>
+      <div class="proj-stat"><div class="proj-stat-num">2</div><span class="proj-stat-label">TRADE SHOWS</span><div class="proj-stat-desc">Regional fitness expos where materials debuted</div></div>
+      <div class="proj-stat"><div class="proj-stat-num">+52%</div><span class="proj-stat-label">ENGAGEMENT</span><div class="proj-stat-desc">Increase in booth collateral pickup rate</div></div>
+      <div class="proj-stat"><div class="proj-stat-num">2 WK</div><span class="proj-stat-label">DELIVERY</span><div class="proj-stat-desc">Concept to print-ready files, on schedule</div></div>
+    </div>
+    <div style="border-top:1px solid rgba(126,207,255,0.1);padding-top:20px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.3);letter-spacing:0.14em;">BLUEPRINT CREATIVE AGENCY · DC METRO AREA · BLUEPRINTCREATES.COM</div>
+      <div class="proj-stamp" style="transform:rotate(2deg);"><span>DELIVERED</span></div>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.3);letter-spacing:0.14em;">BP-APX-002 · SHEET 04/04</div>
+    </div>
+  </div>
+</div><!-- /project-apex -->
+
+<!-- ── PROJECT: SOLSTICE CAFÉ ── -->
+<div id="project-solstice" class="project-panel">
+  <button class="project-back" onclick="closeProject(this)">← WORK</button>
+
+  <div class="proj-title-block">
+    <div class="proj-title-header">
+      <div class="proj-title-top">
+        <div>
+          <div class="proj-title-label">PROJECT DESIGNATION</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:var(--white);">SOLSTICE CAFÉ</div>
+        </div>
+        <div class="proj-stamp"><span>APPROVED</span></div>
+      </div>
+      <div class="proj-title-grid">
+        <div class="proj-title-cell"><span class="proj-title-label">CLIENT</span><span class="proj-title-value">Solstice Café DC</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">INDUSTRY</span><span class="proj-title-value">Food &amp; Beverage</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">SCOPE</span><span class="proj-title-value">Web Design · UI System</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">DATE ISSUED</span><span class="proj-title-value">2025 Q1</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">REVISION</span><span class="proj-title-value">REV D — FINAL</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">DOCUMENT NO.</span><span class="proj-title-value">BP-SOL-003</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 Blueprint Overview -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">01</span>
+      <span class="proj-sec-title">Blueprint Overview — Layout Concept Development</span>
+      <span class="proj-sec-meta">3 LAYOUTS · 2 REJECTED · 1 APPROVED</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <!-- Concept A rejected: split hero -->
+      <div class="concept-box">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">CONCEPT A — REJECTED</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Browser chrome -->
+          <rect x="10" y="10" width="220" height="160" rx="2" stroke="rgba(190,210,255,0.4)" stroke-width="1" fill="rgba(11,26,106,0.15)"/>
+          <rect x="10" y="10" width="220" height="18" fill="rgba(126,207,255,0.06)"/>
+          <circle cx="22" cy="19" r="3" fill="rgba(190,210,255,0.15)"/>
+          <circle cx="32" cy="19" r="3" fill="rgba(190,210,255,0.15)"/>
+          <circle cx="42" cy="19" r="3" fill="rgba(190,210,255,0.15)"/>
+          <!-- Split hero: left text, right image -->
+          <rect x="10" y="28" width="110" height="60" fill="rgba(11,26,106,0.3)"/>
+          <rect x="120" y="28" width="110" height="60" fill="rgba(190,210,255,0.06)"/>
+          <line x1="120" y1="28" x2="230" y2="88" stroke="rgba(190,210,255,0.06)" stroke-width="0.5"/>
+          <line x1="230" y1="28" x2="120" y2="88" stroke="rgba(190,210,255,0.06)" stroke-width="0.5"/>
+          <rect x="18" y="40" width="60" height="8" rx="1" fill="rgba(190,210,255,0.2)"/>
+          <rect x="18" y="52" width="90" height="4" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="18" y="60" width="75" height="4" rx="1" fill="rgba(190,210,255,0.08)"/>
+          <rect x="18" y="72" width="40" height="10" rx="2" fill="rgba(212,144,74,0.3)"/>
+          <!-- Content below fold -->
+          <rect x="18" y="98" width="200" height="3" rx="1" fill="rgba(190,210,255,0.08)"/>
+          <rect x="18" y="106" width="180" height="3" rx="1" fill="rgba(190,210,255,0.06)"/>
+          <!-- Red X -->
+          <line x1="10" y1="28" x2="230" y2="170" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <line x1="230" y1="28" x2="10" y2="170" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <text x="120" y="176" font-family="Space Mono" font-size="7" fill="rgba(239,68,68,0.55)" text-anchor="middle">GENERIC SPLIT — NO EDITORIAL VOICE</text>
+        </svg>
+      </div>
+      <!-- Concept B rejected: full bleed -->
+      <div class="concept-box">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">CONCEPT B — REJECTED</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="220" height="160" rx="2" stroke="rgba(190,210,255,0.4)" stroke-width="1" fill="rgba(11,26,106,0.15)"/>
+          <rect x="10" y="10" width="220" height="18" fill="rgba(126,207,255,0.06)"/>
+          <circle cx="22" cy="19" r="3" fill="rgba(190,210,255,0.15)"/>
+          <circle cx="32" cy="19" r="3" fill="rgba(190,210,255,0.15)"/>
+          <circle cx="42" cy="19" r="3" fill="rgba(190,210,255,0.15)"/>
+          <!-- Full bleed image -->
+          <rect x="10" y="28" width="220" height="90" fill="rgba(212,144,74,0.06)"/>
+          <line x1="10" y1="28" x2="230" y2="118" stroke="rgba(190,210,255,0.05)" stroke-width="0.5"/>
+          <line x1="230" y1="28" x2="10" y2="118" stroke="rgba(190,210,255,0.05)" stroke-width="0.5"/>
+          <!-- Centered overlay text -->
+          <rect x="70" y="62" width="100" height="10" rx="1" fill="rgba(190,210,255,0.25)"/>
+          <rect x="85" y="76" width="70" height="5" rx="1" fill="rgba(190,210,255,0.12)"/>
+          <!-- Content below -->
+          <rect x="18" y="124" width="200" height="3" rx="1" fill="rgba(190,210,255,0.08)"/>
+          <rect x="18" y="132" width="160" height="3" rx="1" fill="rgba(190,210,255,0.06)"/>
+          <!-- Red X -->
+          <line x1="10" y1="28" x2="230" y2="170" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <line x1="230" y1="28" x2="10" y2="170" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <text x="120" y="176" font-family="Space Mono" font-size="7" fill="rgba(239,68,68,0.55)" text-anchor="middle">OVERUSED PATTERN — LACKS CRAFT</text>
+        </svg>
+      </div>
+      <!-- Concept C approved: editorial grid -->
+      <div class="concept-box approved">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(34,197,94,0.7);margin-bottom:12px;">CONCEPT C — APPROVED ✓</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="220" height="160" rx="2" stroke="rgba(190,210,255,0.4)" stroke-width="1" fill="rgba(11,26,106,0.15)"/>
+          <rect x="10" y="10" width="220" height="14" fill="rgba(126,207,255,0.05)"/>
+          <circle cx="22" cy="17" r="2.5" fill="rgba(190,210,255,0.12)"/>
+          <circle cx="30" cy="17" r="2.5" fill="rgba(190,210,255,0.12)"/>
+          <circle cx="38" cy="17" r="2.5" fill="rgba(190,210,255,0.12)"/>
+          <!-- Editorial: large type left + asymmetric image grid right -->
+          <!-- Left: big display text block -->
+          <rect x="16" y="28" width="80" height="20" rx="1" fill="rgba(212,144,74,0.2)"/>
+          <rect x="16" y="52" width="95" height="6" rx="1" fill="rgba(190,210,255,0.12)"/>
+          <rect x="16" y="62" width="85" height="6" rx="1" fill="rgba(190,210,255,0.08)"/>
+          <rect x="16" y="72" width="70" height="6" rx="1" fill="rgba(190,210,255,0.08)"/>
+          <rect x="16" y="86" width="42" height="12" rx="2" fill="rgba(212,144,74,0.25)"/>
+          <!-- Right: staggered image grid -->
+          <rect x="120" y="24" width="100" height="65" rx="1" fill="rgba(212,144,74,0.08)"/>
+          <rect x="120" y="24" width="47" height="65" fill="rgba(212,144,74,0.06)"/>
+          <rect x="122" y="96" width="96" height="40" rx="1" fill="rgba(212,144,74,0.05)"/>
+          <line x1="120" y1="24" x2="220" y2="89" stroke="rgba(212,144,74,0.06)" stroke-width="0.5"/>
+          <!-- Bottom content strip -->
+          <rect x="16" y="108" width="50" height="40" rx="1" fill="rgba(190,210,255,0.04)"/>
+          <rect x="72" y="108" width="38" height="40" rx="1" fill="rgba(190,210,255,0.04)"/>
+          <!-- Approval -->
+          <circle cx="210" cy="32" r="12" stroke="rgba(34,197,94,0.5)" stroke-width="1.5" fill="rgba(34,197,94,0.06)"/>
+          <text x="210" y="36" font-family="Space Mono" font-size="7" fill="rgba(34,197,94,0.8)" text-anchor="middle">OK</text>
+          <text x="120" y="176" font-family="Space Mono" font-size="7" fill="rgba(34,197,94,0.65)" text-anchor="middle">EDITORIAL GRID — SELECTED</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 Design System -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">02</span>
+      <span class="proj-sec-title">Design System — UI Components · Color · Typography</span>
+      <span class="proj-sec-meta">WEB SPEC — REV D FINAL</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
+      <!-- UI Components -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">UI COMPONENT SHEET</div>
+        <div class="concept-box approved" style="padding:16px;display:flex;flex-direction:column;gap:10px;">
+          <!-- Button -->
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.3);margin-bottom:5px;letter-spacing:0.15em;">BUTTON PRIMARY</div>
+            <div style="display:inline-block;padding:8px 20px;background:rgba(212,144,74,0.25);border:1px solid rgba(212,144,74,0.4);border-radius:2px;font-family:'Space Mono',monospace;font-size:9px;color:rgba(212,144,74,0.9);letter-spacing:0.1em;">ORDER ONLINE →</div>
+          </div>
+          <!-- Nav bar -->
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.3);margin-bottom:5px;letter-spacing:0.15em;">NAV BAR</div>
+            <div style="display:flex;gap:14px;align-items:center;padding:6px 10px;border:1px solid rgba(126,207,255,0.12);border-radius:1px;">
+              <div style="width:20px;height:6px;background:rgba(212,144,74,0.4);border-radius:1px;"></div>
+              <div style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(190,210,255,0.5);">Menu</div>
+              <div style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(190,210,255,0.5);">Order</div>
+              <div style="font-family:'Space Mono',monospace;font-size:7px;color:rgba(190,210,255,0.5);">About</div>
+            </div>
+          </div>
+          <!-- Card -->
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.3);margin-bottom:5px;letter-spacing:0.15em;">MENU CARD</div>
+            <div style="border:1px solid rgba(126,207,255,0.12);border-radius:2px;overflow:hidden;">
+              <div style="height:28px;background:rgba(212,144,74,0.08);border-bottom:1px solid rgba(126,207,255,0.1);"></div>
+              <div style="padding:6px 8px;">
+                <div style="width:60%;height:5px;background:rgba(190,210,255,0.15);border-radius:1px;margin-bottom:4px;"></div>
+                <div style="width:80%;height:3px;background:rgba(190,210,255,0.08);border-radius:1px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Color -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">WARM COLOR PALETTE</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:stretch;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#D4904A;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);">AMBER</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#D4904A</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">PRIMARY — CTA</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#F5EDD8;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);">PARCHMENT</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#F5EDD8</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">CREAM — BACKGROUND</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#1C1209;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);">ESPRESSO</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#1C1209</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">DARK — TEXT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Type -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">WEB TYPE PAIRING</div>
+        <div style="border:1px solid rgba(126,207,255,0.15);">
+          <div style="padding:12px 14px;border-bottom:1px solid rgba(126,207,255,0.1);">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.35);letter-spacing:0.15em;margin-bottom:4px;">DISPLAY — CORMORANT GARAMOND</div>
+            <span style="font-size:26px;font-weight:700;color:var(--white);line-height:1;font-style:italic;">Solstice</span>
+          </div>
+          <div style="padding:12px 14px;border-bottom:1px solid rgba(126,207,255,0.1);">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.35);letter-spacing:0.15em;margin-bottom:4px;">DISPLAY — 48PT · ITALIC</div>
+            <span style="font-size:18px;font-weight:500;color:rgba(212,144,74,0.8);">Morning Menu</span>
+          </div>
+          <div style="padding:12px 14px;border-bottom:1px solid rgba(126,207,255,0.1);">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.35);letter-spacing:0.15em;margin-bottom:4px;">BODY — PLUS JAKARTA SANS 15PT</div>
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:rgba(190,210,255,0.6);line-height:1.7;">Artisan café, seasonal flavors,<br>sourced from local farms.</span>
+          </div>
+          <div style="padding:8px 14px;">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.35);letter-spacing:0.15em;margin-bottom:4px;">CAPTION — SPACE MONO 10PT</div>
+            <span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(126,207,255,0.45);">OPEN DAILY · 7AM–7PM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 Production -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">03</span>
+      <span class="proj-sec-title">Production — Screen Wireframes &amp; Component Sheet</span>
+      <span class="proj-sec-meta">RESPONSIVE · 1440PX DESKTOP + 390PX MOBILE</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <!-- Desktop wireframe -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE A — DESKTOP</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="8" width="200" height="130" rx="3" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(11,26,106,0.2)"/>
+          <rect x="10" y="8" width="200" height="14" fill="rgba(126,207,255,0.05)"/>
+          <!-- Nav -->
+          <rect x="16" y="28" width="30" height="5" rx="1" fill="rgba(212,144,74,0.3)"/>
+          <rect x="142" y="28" width="20" height="5" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="166" y="28" width="20" height="5" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="190" y="26" width="16" height="9" rx="1" fill="rgba(212,144,74,0.2)"/>
+          <!-- Hero: editorial grid -->
+          <rect x="16" y="40" width="80" height="20" rx="1" fill="rgba(212,144,74,0.15)"/>
+          <rect x="16" y="64" width="90" height="4" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="16" y="72" width="75" height="4" rx="1" fill="rgba(190,210,255,0.08)"/>
+          <rect x="16" y="82" width="42" height="10" rx="1" fill="rgba(212,144,74,0.2)"/>
+          <rect x="106" y="36" width="100" height="60" rx="1" fill="rgba(212,144,74,0.06)"/>
+          <rect x="106" y="36" width="48" height="60" fill="rgba(212,144,74,0.04)"/>
+          <!-- Section cards -->
+          <rect x="16" y="102" width="56" height="32" rx="1" fill="rgba(190,210,255,0.04)"/>
+          <rect x="78" y="102" width="56" height="32" rx="1" fill="rgba(190,210,255,0.04)"/>
+          <rect x="140" y="102" width="66" height="32" rx="1" fill="rgba(190,210,255,0.04)"/>
+          <!-- Dimension -->
+          <line x1="10" y1="148" x2="210" y2="148" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="10" y1="144" x2="10" y2="152" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="210" y1="144" x2="210" y2="152" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="110" y="160" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">1440PX VIEWPORT · DESKTOP</text>
+        </svg>
+      </div>
+      <!-- Mobile wireframe -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE B — MOBILE</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Phone outline -->
+          <rect x="72" y="4" width="76" height="148" rx="10" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(11,26,106,0.2)"/>
+          <rect x="80" y="12" width="60" height="120" rx="2" fill="rgba(11,26,106,0.15)"/>
+          <!-- Home bar -->
+          <rect x="96" y="148" width="28" height="3" rx="1.5" fill="rgba(190,210,255,0.2)"/>
+          <!-- Nav -->
+          <rect x="84" y="16" width="18" height="4" rx="1" fill="rgba(212,144,74,0.3)"/>
+          <rect x="124" y="17" width="12" height="2" rx="1" fill="rgba(190,210,255,0.2)"/>
+          <rect x="124" y="21" width="12" height="2" rx="1" fill="rgba(190,210,255,0.15)"/>
+          <rect x="124" y="25" width="10" height="2" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <!-- Hero image -->
+          <rect x="80" y="28" width="60" height="38" fill="rgba(212,144,74,0.07)"/>
+          <line x1="80" y1="28" x2="140" y2="66" stroke="rgba(212,144,74,0.06)" stroke-width="0.5"/>
+          <!-- Below image content -->
+          <rect x="84" y="70" width="52" height="7" rx="1" fill="rgba(212,144,74,0.2)"/>
+          <rect x="84" y="81" width="52" height="3" rx="1" fill="rgba(190,210,255,0.1)"/>
+          <rect x="84" y="88" width="45" height="3" rx="1" fill="rgba(190,210,255,0.08)"/>
+          <rect x="84" y="97" width="36" height="9" rx="1" fill="rgba(212,144,74,0.18)"/>
+          <!-- Cards -->
+          <rect x="80" y="112" width="26" height="20" rx="1" fill="rgba(190,210,255,0.04)"/>
+          <rect x="110" y="112" width="30" height="20" rx="1" fill="rgba(190,210,255,0.04)"/>
+          <!-- Dimension -->
+          <line x1="162" y1="12" x2="162" y2="132" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="158" y1="12" x2="166" y2="12" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="158" y1="132" x2="166" y2="132" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="188" y="74" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle" transform="rotate(-90 188 74)">812PX</text>
+          <text x="110" y="158" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.35)" text-anchor="middle">390PX VIEWPORT · MOBILE</text>
+        </svg>
+      </div>
+      <!-- Component sheet -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE C — COMPONENT SHEET</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Grid of components -->
+          <rect x="10" y="8" width="200" height="140" rx="1" stroke="rgba(190,210,255,0.3)" stroke-width="1" fill="none"/>
+          <!-- Row 1: Buttons -->
+          <text x="16" y="20" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.3)">BUTTONS</text>
+          <rect x="16" y="24" width="50" height="12" rx="2" fill="rgba(212,144,74,0.2)" stroke="rgba(212,144,74,0.35)" stroke-width="0.7"/>
+          <rect x="72" y="24" width="50" height="12" rx="2" stroke="rgba(190,210,255,0.2)" stroke-width="0.7" fill="none"/>
+          <rect x="128" y="24" width="50" height="12" rx="2" fill="rgba(190,210,255,0.05)" stroke="rgba(190,210,255,0.1)" stroke-width="0.7"/>
+          <!-- Row 2: Input / Card -->
+          <line x1="10" y1="44" x2="210" y2="44" stroke="rgba(126,207,255,0.1)" stroke-width="0.5"/>
+          <text x="16" y="54" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.3)">INPUTS</text>
+          <rect x="16" y="58" width="120" height="14" rx="2" stroke="rgba(190,210,255,0.2)" stroke-width="0.7" fill="rgba(190,210,255,0.03)"/>
+          <rect x="142" y="58" width="58" height="14" rx="2" fill="rgba(212,144,74,0.15)" stroke="rgba(212,144,74,0.3)" stroke-width="0.7"/>
+          <!-- Row 3: Cards -->
+          <line x1="10" y1="80" x2="210" y2="80" stroke="rgba(126,207,255,0.1)" stroke-width="0.5"/>
+          <text x="16" y="90" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.3)">MENU CARDS</text>
+          <rect x="16" y="94" width="58" height="48" rx="2" stroke="rgba(190,210,255,0.15)" stroke-width="0.7" fill="rgba(190,210,255,0.03)"/>
+          <rect x="16" y="94" width="58" height="22" fill="rgba(212,144,74,0.06)"/>
+          <rect x="80" y="94" width="58" height="48" rx="2" stroke="rgba(190,210,255,0.15)" stroke-width="0.7" fill="rgba(190,210,255,0.03)"/>
+          <rect x="80" y="94" width="58" height="22" fill="rgba(212,144,74,0.06)"/>
+          <rect x="144" y="94" width="56" height="48" rx="2" stroke="rgba(190,210,255,0.15)" stroke-width="0.7" fill="rgba(190,210,255,0.03)"/>
+          <rect x="144" y="94" width="56" height="22" fill="rgba(212,144,74,0.06)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 Impact -->
+  <div class="proj-section" style="border-bottom:none;">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">04</span>
+      <span class="proj-sec-title">Impact — Results &amp; Metrics</span>
+      <span class="proj-sec-meta">POST-LAUNCH · 60 DAY REVIEW</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;">
+      <div class="proj-stat"><div class="proj-stat-num">+45%</div><span class="proj-stat-label">ONLINE ORDERS</span><div class="proj-stat-desc">Month-over-month online order growth post-launch</div></div>
+      <div class="proj-stat"><div class="proj-stat-num">−28%</div><span class="proj-stat-label">BOUNCE RATE</span><div class="proj-stat-desc">Reduction in homepage bounce, improved engagement</div></div>
+      <div class="proj-stat"><div class="proj-stat-num">98</div><span class="proj-stat-label">LIGHTHOUSE</span><div class="proj-stat-desc">Performance score, desktop — first load</div></div>
+      <div class="proj-stat"><div class="proj-stat-num">4 WK</div><span class="proj-stat-label">DELIVERY</span><div class="proj-stat-desc">Discovery to live deployment, on schedule</div></div>
+    </div>
+    <div style="border-top:1px solid rgba(126,207,255,0.1);padding-top:20px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.3);letter-spacing:0.14em;">BLUEPRINT CREATIVE AGENCY · DC METRO AREA · BLUEPRINTCREATES.COM</div>
+      <div class="proj-stamp" style="transform:rotate(2deg);"><span>DELIVERED</span></div>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.3);letter-spacing:0.14em;">BP-SOL-003 · SHEET 04/04</div>
+    </div>
+  </div>
+</div><!-- /project-solstice -->
+
+<!-- ── PROJECT: HARBOR DISTRICT CO. ── -->
+<div id="project-harbor" class="project-panel">
+  <button class="project-back" onclick="closeProject(this)">← WORK</button>
+
+  <div class="proj-title-block">
+    <div class="proj-title-header">
+      <div class="proj-title-top">
+        <div>
+          <div class="proj-title-label">PROJECT DESIGNATION</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:var(--white);">HARBOR DISTRICT CO.</div>
+        </div>
+        <div class="proj-stamp"><span>APPROVED</span></div>
+      </div>
+      <div class="proj-title-grid">
+        <div class="proj-title-cell"><span class="proj-title-label">CLIENT</span><span class="proj-title-value">Harbor District Co.</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">INDUSTRY</span><span class="proj-title-value">Retail · Waterfront</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">SCOPE</span><span class="proj-title-value">Branding · Signage · Wayfinding</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">DATE ISSUED</span><span class="proj-title-value">2025 Q2</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">REVISION</span><span class="proj-title-value">REV C — FINAL</span></div>
+        <div class="proj-title-cell"><span class="proj-title-label">DOCUMENT NO.</span><span class="proj-title-value">BP-HBR-004</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 Blueprint Overview -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">01</span>
+      <span class="proj-sec-title">Blueprint Overview — Concept Development</span>
+      <span class="proj-sec-meta">3 CONCEPTS · 2 REJECTED · 1 APPROVED</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <!-- Concept A rejected: text-only wordmark -->
+      <div class="concept-box">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">CONCEPT A — REJECTED</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <line x1="120" y1="0" x2="120" y2="180" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <!-- Text only wordmark -->
+          <text x="120" y="72" font-family="'Space Mono',monospace" font-size="16" font-weight="700" fill="rgba(190,210,255,0.55)" text-anchor="middle" letter-spacing="6">HARBOR</text>
+          <text x="120" y="92" font-family="'Space Mono',monospace" font-size="11" font-weight="400" fill="rgba(190,210,255,0.4)" text-anchor="middle" letter-spacing="10">DISTRICT</text>
+          <line x1="60" y1="98" x2="180" y2="98" stroke="rgba(190,210,255,0.15)" stroke-width="0.7"/>
+          <text x="120" y="112" font-family="'Space Mono',monospace" font-size="8" font-weight="400" fill="rgba(190,210,255,0.25)" text-anchor="middle" letter-spacing="6">CO.</text>
+          <!-- Dimension -->
+          <line x1="40" y1="60" x2="40" y2="115" stroke="rgba(46,58,224,0.4)" stroke-width="0.7"/>
+          <line x1="36" y1="60" x2="44" y2="60" stroke="rgba(46,58,224,0.4)" stroke-width="0.7"/>
+          <line x1="36" y1="115" x2="44" y2="115" stroke="rgba(46,58,224,0.4)" stroke-width="0.7"/>
+          <text x="28" y="90" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.35)" text-anchor="middle">55pt</text>
+          <!-- Red X -->
+          <line x1="40" y1="30" x2="200" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <line x1="200" y1="30" x2="40" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <text x="120" y="175" font-family="Space Mono" font-size="7" fill="rgba(239,68,68,0.55)" text-anchor="middle">NO SYMBOL — NO RECALL</text>
+        </svg>
+      </div>
+      <!-- Concept B rejected: wave + serif -->
+      <div class="concept-box">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">CONCEPT B — REJECTED</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <line x1="120" y1="0" x2="120" y2="180" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <!-- Wave form mark above text -->
+          <path d="M70 70 Q85 55 100 70 Q115 85 130 70 Q145 55 160 70" stroke="rgba(190,210,255,0.55)" stroke-width="2.5" fill="none"/>
+          <!-- Serif text below -->
+          <text x="120" y="100" font-family="Georgia,serif" font-size="18" fill="rgba(190,210,255,0.5)" text-anchor="middle">HARBOR</text>
+          <text x="120" y="118" font-family="Georgia,serif" font-size="11" fill="rgba(190,210,255,0.3)" text-anchor="middle">DISTRICT CO.</text>
+          <!-- Red X -->
+          <line x1="40" y1="30" x2="200" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <line x1="200" y1="30" x2="40" y2="160" stroke="rgba(239,68,68,0.45)" stroke-width="2"/>
+          <text x="120" y="175" font-family="Space Mono" font-size="7" fill="rgba(239,68,68,0.55)" text-anchor="middle">CLICHÉ WAVE — LACKS AUTHORITY</text>
+        </svg>
+      </div>
+      <!-- Concept C approved: grid-anchor mark -->
+      <div class="concept-box approved">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(34,197,94,0.7);margin-bottom:12px;">CONCEPT C — APPROVED ✓</div>
+        <svg viewBox="0 0 240 180" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <line x1="120" y1="0" x2="120" y2="180" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <line x1="0" y1="90" x2="240" y2="90" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <!-- Construction circle -->
+          <circle cx="120" cy="80" r="42" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="4,4" fill="none"/>
+          <!-- Geometric anchor mark -->
+          <!-- Horizontal bar -->
+          <line x1="100" y1="52" x2="140" y2="52" stroke="rgba(190,210,255,0.55)" stroke-width="2.5"/>
+          <!-- Vertical shaft -->
+          <line x1="120" y1="52" x2="120" y2="108" stroke="rgba(190,210,255,0.55)" stroke-width="2.5"/>
+          <!-- Cross bar -->
+          <line x1="104" y1="78" x2="136" y2="78" stroke="rgba(190,210,255,0.55)" stroke-width="2.5"/>
+          <!-- Ring at top -->
+          <circle cx="120" cy="52" r="7" stroke="rgba(190,210,255,0.55)" stroke-width="2" fill="none"/>
+          <!-- Curved flukes -->
+          <path d="M120 108 Q104 118 100 128" stroke="rgba(190,210,255,0.55)" stroke-width="2.5" fill="none"/>
+          <path d="M120 108 Q136 118 140 128" stroke="rgba(190,210,255,0.55)" stroke-width="2.5" fill="none"/>
+          <!-- Grid dots -->
+          <rect x="116" y="50" width="4" height="4" fill="rgba(126,207,255,0.5)"/>
+          <!-- Dimension -->
+          <line x1="152" y1="52" x2="152" y2="128" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="148" y1="52" x2="156" y2="52" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="148" y1="128" x2="156" y2="128" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="168" y="93" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)">76pt</text>
+          <!-- Approval -->
+          <circle cx="196" cy="35" r="14" stroke="rgba(34,197,94,0.5)" stroke-width="1.5" fill="rgba(34,197,94,0.06)"/>
+          <text x="196" y="39" font-family="Space Mono" font-size="7" fill="rgba(34,197,94,0.8)" text-anchor="middle">OK</text>
+          <text x="120" y="175" font-family="Space Mono" font-size="7" fill="rgba(34,197,94,0.65)" text-anchor="middle">ANCHOR MARK — GEOMETRIC — SELECTED</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 Design System -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">02</span>
+      <span class="proj-sec-title">Design System — Anchor Construction · Color · Typography</span>
+      <span class="proj-sec-meta">REV C — FINAL</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
+      <!-- Anchor construction -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">ANCHOR MARK CONSTRUCTION</div>
+        <div class="concept-box approved" style="padding:16px;">
+          <svg viewBox="0 0 200 200" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="80" stroke="rgba(126,207,255,0.08)" stroke-width="0.5" stroke-dasharray="3,3" fill="none"/>
+            <line x1="100" y1="10" x2="100" y2="190" stroke="rgba(126,207,255,0.1)" stroke-width="0.5" stroke-dasharray="4,4"/>
+            <line x1="10" y1="100" x2="190" y2="100" stroke="rgba(126,207,255,0.1)" stroke-width="0.5" stroke-dasharray="4,4"/>
+            <!-- Grid squares guide -->
+            <rect x="60" y="32" width="80" height="140" stroke="rgba(126,207,255,0.06)" stroke-width="0.5" stroke-dasharray="2,2" fill="none"/>
+            <!-- Anchor -->
+            <line x1="75" y1="44" x2="125" y2="44" stroke="rgba(190,210,255,0.65)" stroke-width="3"/>
+            <line x1="100" y1="44" x2="100" y2="152" stroke="rgba(190,210,255,0.65)" stroke-width="3"/>
+            <line x1="80" y1="96" x2="120" y2="96" stroke="rgba(190,210,255,0.65)" stroke-width="3"/>
+            <circle cx="100" cy="44" r="11" stroke="rgba(190,210,255,0.65)" stroke-width="2.5" fill="none"/>
+            <path d="M100 152 Q80 164 76 174" stroke="rgba(190,210,255,0.65)" stroke-width="3" fill="none"/>
+            <path d="M100 152 Q120 164 124 174" stroke="rgba(190,210,255,0.65)" stroke-width="3" fill="none"/>
+            <!-- Dimension annotaions -->
+            <line x1="46" y1="44" x2="46" y2="152" stroke="rgba(46,58,224,0.45)" stroke-width="0.7"/>
+            <line x1="42" y1="44" x2="50" y2="44" stroke="rgba(46,58,224,0.45)" stroke-width="0.7"/>
+            <line x1="42" y1="152" x2="50" y2="152" stroke="rgba(46,58,224,0.45)" stroke-width="0.7"/>
+            <text x="36" y="100" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.35)" text-anchor="middle">108</text>
+            <line x1="75" y1="188" x2="125" y2="188" stroke="rgba(46,58,224,0.45)" stroke-width="0.7"/>
+            <text x="100" y="197" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.35)" text-anchor="middle">50pt</text>
+          </svg>
+        </div>
+      </div>
+      <!-- Color -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">HARBOR COLOR SYSTEM</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:stretch;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#0F2040;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);">PMS 289 C</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#0F2040</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">DEEP NAVY — PRIMARY</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#C8A96E;flex-shrink:0;"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);">PMS 7508 C</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#C8A96E</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">SAND — SECONDARY</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;border:1px solid rgba(126,207,255,0.15);">
+            <div style="width:56px;background:#FFFFFF;flex-shrink:0;border-right:1px solid rgba(126,207,255,0.1);"></div>
+            <div style="padding:10px 14px;flex:1;">
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.45);">WHITE</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white);margin-top:2px;">#FFFFFF</div>
+              <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.35);margin-top:1px;">NEUTRAL — REVERSE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Type -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">BOLD DISPLAY TYPE</div>
+        <div style="border:1px solid rgba(126,207,255,0.15);">
+          <div style="padding:10px 14px;border-bottom:1px solid rgba(126,207,255,0.1);">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.35);letter-spacing:0.15em;margin-bottom:4px;">DISPLAY — 72PT · 900 · UPPERCASE</div>
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:900;color:var(--white);letter-spacing:-0.03em;line-height:1;">HARBOR</span>
+          </div>
+          <div style="padding:10px 14px;border-bottom:1px solid rgba(126,207,255,0.1);">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.35);letter-spacing:0.15em;margin-bottom:4px;">HEADING — 36PT · 700</div>
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:700;color:rgba(200,169,110,0.9);">DISTRICT</span>
+          </div>
+          <div style="padding:10px 14px;border-bottom:1px solid rgba(126,207,255,0.1);">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.35);letter-spacing:0.15em;margin-bottom:4px;">SUBHEAD — 16PT · 600</div>
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:rgba(190,210,255,0.7);">Waterfront Collective</span>
+          </div>
+          <div style="padding:8px 14px;border-bottom:1px solid rgba(126,207,255,0.1);">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.35);letter-spacing:0.15em;margin-bottom:4px;">BODY — 14PT · 400</div>
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;color:rgba(190,210,255,0.55);">Curated shops at the waterfront.</span>
+          </div>
+          <div style="padding:8px 14px;">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:rgba(126,207,255,0.35);letter-spacing:0.15em;margin-bottom:4px;">LABEL — SPACE MONO 9PT</div>
+            <span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(126,207,255,0.45);">EST. 2019 · DC</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 Production -->
+  <div class="proj-section">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">03</span>
+      <span class="proj-sec-title">Production — Signage &amp; Wayfinding Technical Drawings</span>
+      <span class="proj-sec-meta">SCALE: NOT TO SCALE · 3-LOCATION DEPLOYMENT</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <!-- Storefront sign -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE A — STOREFRONT SIGN</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Building facade suggestion -->
+          <rect x="5" y="50" width="210" height="90" rx="0" stroke="rgba(190,210,255,0.15)" stroke-width="0.5" fill="rgba(15,32,64,0.15)" stroke-dasharray="4,2"/>
+          <!-- Sign band -->
+          <rect x="5" y="58" width="210" height="50" rx="1" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(15,32,64,0.4)"/>
+          <!-- Anchor mark on sign -->
+          <line x1="24" y1="66" x2="36" y2="66" stroke="rgba(200,169,110,0.7)" stroke-width="2"/>
+          <line x1="30" y1="66" x2="30" y2="98" stroke="rgba(200,169,110,0.7)" stroke-width="2"/>
+          <line x1="24" y1="82" x2="36" y2="82" stroke="rgba(200,169,110,0.7)" stroke-width="1.5"/>
+          <circle cx="30" cy="66" r="5" stroke="rgba(200,169,110,0.7)" stroke-width="1.5" fill="none"/>
+          <path d="M30 98 Q24 104 22 110" stroke="rgba(200,169,110,0.7)" stroke-width="2" fill="none"/>
+          <path d="M30 98 Q36 104 38 110" stroke="rgba(200,169,110,0.7)" stroke-width="2" fill="none"/>
+          <!-- Company name -->
+          <rect x="48" y="72" width="120" height="10" rx="1" fill="rgba(190,210,255,0.3)"/>
+          <rect x="48" y="86" width="80" height="6" rx="1" fill="rgba(200,169,110,0.15)"/>
+          <!-- Mounting points -->
+          <circle cx="12" cy="62" r="2.5" stroke="rgba(126,207,255,0.4)" stroke-width="0.7" fill="none"/>
+          <circle cx="208" cy="62" r="2.5" stroke="rgba(126,207,255,0.4)" stroke-width="0.7" fill="none"/>
+          <circle cx="12" cy="104" r="2.5" stroke="rgba(126,207,255,0.4)" stroke-width="0.7" fill="none"/>
+          <circle cx="208" cy="104" r="2.5" stroke="rgba(126,207,255,0.4)" stroke-width="0.7" fill="none"/>
+          <!-- Width dimension -->
+          <line x1="5" y1="120" x2="215" y2="120" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="5" y1="116" x2="5" y2="124" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="215" y1="116" x2="215" y2="124" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="110" y="135" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">60"</text>
+          <!-- Height dimension -->
+          <line x1="3" y1="58" x2="3" y2="108" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="0" y1="58" x2="6" y2="58" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="0" y1="108" x2="6" y2="108" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="3" y="86" font-family="Space Mono" font-size="6" fill="rgba(126,207,255,0.38)" text-anchor="middle" transform="rotate(-90 3 86)">20"</text>
+          <text x="110" y="150" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.35)" text-anchor="middle">STOREFRONT SIGN · 60" × 20" · PAINTED STEEL</text>
+        </svg>
+      </div>
+      <!-- Vehicle wrap -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE B — VEHICLE WRAP</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Van front view outline -->
+          <rect x="30" y="35" width="160" height="90" rx="8" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(15,32,64,0.3)"/>
+          <!-- Windshield -->
+          <rect x="50" y="42" width="120" height="55" rx="4" stroke="rgba(126,207,255,0.25)" stroke-width="1" fill="rgba(126,207,255,0.04)"/>
+          <!-- Hood indent -->
+          <rect x="55" y="95" width="110" height="26" rx="3" stroke="rgba(190,210,255,0.2)" stroke-width="0.7" fill="rgba(15,32,64,0.2)"/>
+          <!-- Left panel (driver side color) -->
+          <rect x="30" y="50" width="20" height="65" rx="0" fill="rgba(15,32,64,0.5)"/>
+          <!-- Right panel -->
+          <rect x="170" y="50" width="20" height="65" rx="0" fill="rgba(15,32,64,0.5)"/>
+          <!-- Logo on hood -->
+          <line x1="101" y1="102" x2="119" y2="102" stroke="rgba(200,169,110,0.6)" stroke-width="1.5"/>
+          <line x1="110" y1="102" x2="110" y2="118" stroke="rgba(200,169,110,0.6)" stroke-width="1.5"/>
+          <line x1="104" y1="110" x2="116" y2="110" stroke="rgba(200,169,110,0.6)" stroke-width="1"/>
+          <circle cx="110" cy="102" r="5" stroke="rgba(200,169,110,0.6)" stroke-width="1" fill="none"/>
+          <!-- Company wordmark -->
+          <rect x="55" y="60" width="110" height="8" rx="1" fill="rgba(190,210,255,0.2)"/>
+          <rect x="70" y="72" width="80" height="5" rx="1" fill="rgba(200,169,110,0.15)"/>
+          <!-- Headlights -->
+          <rect x="34" y="38" width="22" height="10" rx="3" fill="rgba(126,207,255,0.08)" stroke="rgba(190,210,255,0.25)" stroke-width="0.7"/>
+          <rect x="164" y="38" width="22" height="10" rx="3" fill="rgba(126,207,255,0.08)" stroke="rgba(190,210,255,0.25)" stroke-width="0.7"/>
+          <!-- Width dimension -->
+          <line x1="30" y1="136" x2="190" y2="136" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="30" y1="132" x2="30" y2="140" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="190" y1="132" x2="190" y2="140" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="110" y="150" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">VEHICLE WRAP · FRONT ELEVATION · VINYL FULL-WRAP</text>
+        </svg>
+      </div>
+      <!-- Wayfinding sign -->
+      <div class="concept-box" style="padding:16px;">
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:rgba(126,207,255,0.45);margin-bottom:12px;">DELIVERABLE C — WAYFINDING SIGN</div>
+        <svg viewBox="0 0 220 160" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Pole -->
+          <rect x="107" y="110" width="6" height="44" fill="rgba(190,210,255,0.2)"/>
+          <!-- Sign board -->
+          <rect x="40" y="30" width="140" height="80" rx="3" stroke="rgba(190,210,255,0.55)" stroke-width="1.5" fill="rgba(15,32,64,0.4)"/>
+          <!-- Left color block -->
+          <rect x="40" y="30" width="28" height="80" rx="3" fill="rgba(200,169,110,0.15)"/>
+          <rect x="62" y="30" width="6" height="80" fill="rgba(15,32,64,0.4)"/>
+          <!-- Anchor in left block -->
+          <line x1="50" y1="50" x2="62" y2="50" stroke="rgba(200,169,110,0.55)" stroke-width="1.5"/>
+          <line x1="56" y1="50" x2="56" y2="95" stroke="rgba(200,169,110,0.55)" stroke-width="1.5"/>
+          <line x1="50" y1="72" x2="62" y2="72" stroke="rgba(200,169,110,0.55)" stroke-width="1"/>
+          <circle cx="56" cy="50" r="5" stroke="rgba(200,169,110,0.55)" stroke-width="1" fill="none"/>
+          <path d="M56 95 Q50 101 48 107" stroke="rgba(200,169,110,0.55)" stroke-width="1.5" fill="none"/>
+          <path d="M56 95 Q62 101 64 107" stroke="rgba(200,169,110,0.55)" stroke-width="1.5" fill="none"/>
+          <!-- Direction rows -->
+          <rect x="72" y="42" width="90" height="7" rx="1" fill="rgba(190,210,255,0.22)"/>
+          <text x="162" y="50" font-family="Space Mono" font-size="8" fill="rgba(200,169,110,0.6)" text-anchor="end">→</text>
+          <line x1="72" y1="56" x2="175" y2="56" stroke="rgba(126,207,255,0.1)" stroke-width="0.5"/>
+          <rect x="72" y="60" width="75" height="7" rx="1" fill="rgba(190,210,255,0.15)"/>
+          <text x="162" y="68" font-family="Space Mono" font-size="8" fill="rgba(200,169,110,0.6)" text-anchor="end">↑</text>
+          <line x1="72" y1="74" x2="175" y2="74" stroke="rgba(126,207,255,0.1)" stroke-width="0.5"/>
+          <rect x="72" y="78" width="85" height="7" rx="1" fill="rgba(190,210,255,0.15)"/>
+          <text x="162" y="86" font-family="Space Mono" font-size="8" fill="rgba(200,169,110,0.6)" text-anchor="end">→</text>
+          <line x1="72" y1="92" x2="175" y2="92" stroke="rgba(126,207,255,0.1)" stroke-width="0.5"/>
+          <rect x="72" y="96" width="65" height="7" rx="1" fill="rgba(190,210,255,0.12)"/>
+          <!-- Dimension -->
+          <line x1="40" y1="122" x2="180" y2="122" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="40" y1="118" x2="40" y2="126" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="180" y1="118" x2="180" y2="126" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="110" y="137" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle">36"</text>
+          <line x1="192" y1="30" x2="192" y2="110" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="188" y1="30" x2="196" y2="30" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <line x1="188" y1="110" x2="196" y2="110" stroke="rgba(46,58,224,0.5)" stroke-width="0.7"/>
+          <text x="209" y="73" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.4)" text-anchor="middle" transform="rotate(-90 209 73)">24"</text>
+          <text x="110" y="155" font-family="Space Mono" font-size="7" fill="rgba(126,207,255,0.35)" text-anchor="middle">WAYFINDING · 36" × 24" · ALUMINUM POST-MOUNT</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 Impact -->
+  <div class="proj-section" style="border-bottom:none;">
+    <div class="proj-sec-head">
+      <span class="proj-sec-num">04</span>
+      <span class="proj-sec-title">Impact — Results &amp; Metrics</span>
+      <span class="proj-sec-meta">POST-INSTALL · 3-LOCATION ROLLOUT</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;">
+      <div class="proj-stat"><div class="proj-stat-num">+90%</div><span class="proj-stat-label">BRAND RECALL</span><div class="proj-stat-desc">Unaided recall among district visitors, post-install</div></div>
+      <div class="proj-stat"><div class="proj-stat-num">+40%</div><span class="proj-stat-label">FOOT TRAFFIC</span><div class="proj-stat-desc">Increase in walk-in inquiries across all 3 locations</div></div>
+      <div class="proj-stat"><div class="proj-stat-num">3</div><span class="proj-stat-label">LOCATIONS</span><div class="proj-stat-desc">Simultaneous signage deployment across DC Metro</div></div>
+      <div class="proj-stat"><div class="proj-stat-num">3 WK</div><span class="proj-stat-label">DELIVERY</span><div class="proj-stat-desc">Brand identity to installed signage, on schedule</div></div>
+    </div>
+    <div style="border-top:1px solid rgba(126,207,255,0.1);padding-top:20px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.3);letter-spacing:0.14em;">BLUEPRINT CREATIVE AGENCY · DC METRO AREA · BLUEPRINTCREATES.COM</div>
+      <div class="proj-stamp" style="transform:rotate(2deg);"><span>DELIVERED</span></div>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:rgba(126,207,255,0.3);letter-spacing:0.14em;">BP-HBR-004 · SHEET 04/04</div>
+    </div>
+  </div>
+</div><!-- /project-harbor -->
 
 </body>
 </html>
