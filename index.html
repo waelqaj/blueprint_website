@@ -2152,7 +2152,7 @@
   // ── Blueprint Gradient Mesh (panel backgrounds) ──────────────
   (function() {
     const CELL = 48;
-    const SPEED = 0.18;
+    const SPEED = 0.12;
     const GRID_COLOR   = 'rgba(126,207,255,0.07)';
     const GRID_ACCENT  = 'rgba(126,207,255,0.14)';
     const HOVER_FILL   = 'rgba(126,207,255,0.09)';
@@ -2169,22 +2169,20 @@
     function drawGrid(w, h) {
       gridCtx.clearRect(0, 0, w, h);
       const o = offset % CELL;
-      for (let x = -CELL + o; x < w + CELL; x += CELL) {
-        const li = Math.round((x - o) / CELL);
-        gridCtx.strokeStyle = (li % 4 === 0) ? GRID_ACCENT : GRID_COLOR;
-        gridCtx.lineWidth   = (li % 4 === 0) ? 1 : 0.5;
+      for (let i = -1, x = -CELL + o; x < w + CELL; i++, x += CELL) {
+        gridCtx.strokeStyle = (i % 4 === 0) ? GRID_ACCENT : GRID_COLOR;
+        gridCtx.lineWidth   = (i % 4 === 0) ? 1 : 0.5;
         gridCtx.beginPath();
-        gridCtx.moveTo(x, 0);
-        gridCtx.lineTo(x, h);
+        gridCtx.moveTo(Math.round(x) + 0.5, 0);
+        gridCtx.lineTo(Math.round(x) + 0.5, h);
         gridCtx.stroke();
       }
-      for (let y = -CELL + o * 0.6; y < h + CELL; y += CELL) {
-        const li = Math.round((y - o * 0.6) / CELL);
-        gridCtx.strokeStyle = (li % 4 === 0) ? GRID_ACCENT : GRID_COLOR;
-        gridCtx.lineWidth   = (li % 4 === 0) ? 1 : 0.5;
+      for (let i = -1, y = -CELL + o; y < h + CELL; i++, y += CELL) {
+        gridCtx.strokeStyle = (i % 4 === 0) ? GRID_ACCENT : GRID_COLOR;
+        gridCtx.lineWidth   = (i % 4 === 0) ? 1 : 0.5;
         gridCtx.beginPath();
-        gridCtx.moveTo(0, y);
-        gridCtx.lineTo(w, y);
+        gridCtx.moveTo(0, Math.round(y) + 0.5);
+        gridCtx.lineTo(w, Math.round(y) + 0.5);
         gridCtx.stroke();
       }
     }
@@ -2193,9 +2191,9 @@
       hoverCtx.clearRect(0, 0, w, h);
       const { ci, ri } = hoverCell;
       if (ci < 0 || ri < 0) return;
-      const o = offset % CELL;
+      const o = offset;
       const x = ci * CELL - CELL + o;
-      const y = ri * CELL - CELL + o * 0.6;
+      const y = ri * CELL - CELL + o;
       hoverCtx.save();
       hoverCtx.shadowBlur  = HOVER_GLOW;
       hoverCtx.shadowColor = 'rgba(126,207,255,0.4)';
@@ -2209,7 +2207,7 @@
 
     function tick() {
       if (!activeWrap) return;
-      offset += SPEED;
+      offset = (offset + SPEED) % CELL;
       const w = gridCanvas.width / (window.devicePixelRatio || 1);
       const h = gridCanvas.height / (window.devicePixelRatio || 1);
       drawGrid(w, h);
@@ -2244,9 +2242,9 @@
       const panel = wrap.parentElement;
       panel._meshMove = function(e) {
         const rect = wrap.getBoundingClientRect();
-        const o = offset % CELL;
+        const o = offset;
         const mx = e.clientX - rect.left - o + CELL;
-        const my = e.clientY - rect.top - o * 0.6 + CELL;
+        const my = e.clientY - rect.top - o + CELL;
         hoverCell.ci = Math.floor(mx / CELL);
         hoverCell.ri = Math.floor(my / CELL);
       };
