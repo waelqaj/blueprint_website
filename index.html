@@ -770,7 +770,10 @@
     }
 
     /* ── Blueprint Gradient Mesh (panel backgrounds) ── */
-    /* Make panel sections transparent so canvas mesh shows through */
+    /* Remove static CSS grid from panels — canvas mesh replaces it */
+    .page-panel.bp-dark {
+      background-image: none;
+    }
     .page-panel > section.bp-dark {
       background-color: transparent;
       background-image: none;
