@@ -2172,17 +2172,21 @@
     function drawGrid(w, h) {
       gridCtx.clearRect(0, 0, w, h);
       const o = offset % CELL;
-      for (let i = -1, x = -CELL + o; x < w + CELL; i++, x += CELL) {
-        gridCtx.strokeStyle = (i % 4 === 0) ? GRID_ACCENT : GRID_COLOR;
-        gridCtx.lineWidth   = (i % 4 === 0) ? 1 : 0.5;
+      // Base index tracks which grid line is at origin, so accents scroll with the grid
+      const baseIdx = Math.floor(offset / CELL);
+      for (let i = 0, x = -CELL + o; x < w + CELL; i++, x += CELL) {
+        const gi = (baseIdx + i) % 4;
+        gridCtx.strokeStyle = (gi === 0) ? GRID_ACCENT : GRID_COLOR;
+        gridCtx.lineWidth   = (gi === 0) ? 1 : 0.5;
         gridCtx.beginPath();
         gridCtx.moveTo(Math.round(x) + 0.5, 0);
         gridCtx.lineTo(Math.round(x) + 0.5, h);
         gridCtx.stroke();
       }
-      for (let i = -1, y = -CELL + o; y < h + CELL; i++, y += CELL) {
-        gridCtx.strokeStyle = (i % 4 === 0) ? GRID_ACCENT : GRID_COLOR;
-        gridCtx.lineWidth   = (i % 4 === 0) ? 1 : 0.5;
+      for (let i = 0, y = -CELL + o; y < h + CELL; i++, y += CELL) {
+        const gi = (baseIdx + i) % 4;
+        gridCtx.strokeStyle = (gi === 0) ? GRID_ACCENT : GRID_COLOR;
+        gridCtx.lineWidth   = (gi === 0) ? 1 : 0.5;
         gridCtx.beginPath();
         gridCtx.moveTo(0, Math.round(y) + 0.5);
         gridCtx.lineTo(w, Math.round(y) + 0.5);
@@ -2210,7 +2214,7 @@
 
     function tick() {
       if (!activeWrap) return;
-      offset = (offset + SPEED) % CELL;
+      offset += SPEED;
       const w = gridCanvas.width / (window.devicePixelRatio || 1);
       const h = gridCanvas.height / (window.devicePixelRatio || 1);
       drawGrid(w, h);
