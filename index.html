@@ -2160,15 +2160,14 @@
     const GRID_ACCENT  = 'rgba(126,207,255,0.14)';
     const HOVER_FILL   = 'rgba(126,207,255,0.09)';
     const HOVER_STROKE = 'rgba(126,207,255,0.35)';
-    const TRAIL_DURATION = 2000;
-    const TRAIL_MAX = 60;
+    const HOVER_GLOW   = 12;
 
     let rafId = null;
     let offset = 0;
     let activeWrap = null;
     let gridCanvas = null, gridCtx = null;
     let hoverCanvas = null, hoverCtx = null;
-    let trail = [];
+    let hoverCell = { ci: -1, ri: -1 };
 
     function drawGrid(w, h) {
       gridCtx.clearRect(0, 0, w, h);
@@ -2191,32 +2190,20 @@
 
     function drawHover(w, h) {
       hoverCtx.clearRect(0, 0, w, h);
-      if (!trail.length) return;
-      var now = performance.now();
-      // Prune expired entries
-      while (trail.length && now - trail[0].time > TRAIL_DURATION) trail.shift();
-      // Draw fading trail
-      for (var t = 0; t < trail.length; t++) {
-        var entry = trail[t];
-        var age = now - entry.time;
-        var alpha = 1 - age / TRAIL_DURATION;
-        hoverCtx.globalAlpha = alpha * 0.15;
-        hoverCtx.fillStyle = 'rgb(126,207,255)';
-        hoverCtx.fillRect(entry.ci * CELL, entry.ri * CELL, CELL, CELL);
-      }
-      hoverCtx.globalAlpha = 1;
-      // Current cell gets glow + stroke
-      var cur = trail[trail.length - 1];
-      var cx = cur.ci * CELL, cy = cur.ri * CELL;
+      const { ci, ri } = hoverCell;
+      if (ci < 0 || ri < 0) return;
+      const o = offset;
+      const x = ci * CELL - CELL + o;
+      const y = ri * CELL - CELL + o;
       hoverCtx.save();
-      hoverCtx.shadowBlur = 12;
+      hoverCtx.shadowBlur  = HOVER_GLOW;
       hoverCtx.shadowColor = 'rgba(126,207,255,0.4)';
-      hoverCtx.fillStyle = HOVER_FILL;
-      hoverCtx.fillRect(cx, cy, CELL, CELL);
+      hoverCtx.fillStyle   = HOVER_FILL;
+      hoverCtx.fillRect(x, y, CELL, CELL);
       hoverCtx.restore();
       hoverCtx.strokeStyle = HOVER_STROKE;
-      hoverCtx.lineWidth = 1;
-      hoverCtx.strokeRect(cx + 0.5, cy + 0.5, CELL - 1, CELL - 1);
+      hoverCtx.lineWidth   = 1;
+      hoverCtx.strokeRect(x + 0.5, y + 0.5, CELL - 1, CELL - 1);
     }
 
     function tick() {
@@ -2255,16 +2242,14 @@
 
       const panel = wrap.parentElement;
       panel._meshMove = function(e) {
-        var rect = wrap.getBoundingClientRect();
-        var ci = Math.floor((e.clientX - rect.left) / CELL);
-        var ri = Math.floor((e.clientY - rect.top) / CELL);
-        var last = trail[trail.length - 1];
-        if (!last || last.ci !== ci || last.ri !== ri) {
-          trail.push({ ci: ci, ri: ri, time: performance.now() });
-          if (trail.length > TRAIL_MAX) trail.shift();
-        }
+        const rect = wrap.getBoundingClientRect();
+        const o = offset;
+        const mx = e.clientX - rect.left - o + CELL;
+        const my = e.clientY - rect.top - o + CELL;
+        hoverCell.ci = Math.floor(mx / CELL);
+        hoverCell.ri = Math.floor(my / CELL);
       };
-      panel._meshLeave = function() { trail = []; };
+      panel._meshLeave = function() { hoverCell.ci = -1; hoverCell.ri = -1; };
       panel.addEventListener('mousemove', panel._meshMove);
       panel.addEventListener('mouseleave', panel._meshLeave);
       rafId = requestAnimationFrame(tick);
@@ -2280,7 +2265,7 @@
         if (hoverCanvas && hoverCanvas.parentNode) hoverCanvas.parentNode.removeChild(hoverCanvas);
       }
       activeWrap = gridCanvas = gridCtx = hoverCanvas = hoverCtx = null;
-      trail = [];
+      hoverCell = { ci: -1, ri: -1 };
     }
 
     window._meshStart = startMesh;
