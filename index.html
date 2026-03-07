@@ -770,6 +770,11 @@
     }
 
     /* ── Blueprint Gradient Mesh (panel backgrounds) ── */
+    /* Make panel sections transparent so canvas mesh shows through */
+    .page-panel > section.bp-dark {
+      background-color: transparent;
+      background-image: none;
+    }
     .mesh-wrap {
       position: absolute;
       inset: 0;
