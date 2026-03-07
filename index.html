@@ -19,7 +19,7 @@
             'bp-mid':  '#1430A0',
             'bp-cyan': '#7ECFFF',
             'brand':   '#2E3AE0',
-            'lime':    '#9BD738',
+            'lime':    '#2E3AE0',
           },
           fontFamily: {
             display: ['"Plus Jakarta Sans"', 'sans-serif'],
@@ -38,7 +38,7 @@
       --bp-card:  rgba(14, 28, 110, 0.6);
       --bp-cyan:  #7ECFFF;
       --brand:    #2E3AE0;
-      --lime:     #9BD738;
+      --lime:     #2E3AE0;
       --white:    #EEF4FF;
       --muted:    rgba(190, 210, 255, 0.55);
       --border:   rgba(126, 207, 255, 0.18);
@@ -288,11 +288,11 @@
     .btn:focus-visible { outline: 2px solid var(--bp-cyan); outline-offset: 3px; }
 
     .btn-lime {
-      background: var(--lime); color: #07120A;
+      background: var(--brand); color: #fff;
       padding: 14px 32px;
-      box-shadow: 0 4px 24px rgba(155,215,56,0.22);
+      box-shadow: 0 4px 24px rgba(46,58,224,0.22);
     }
-    .btn-lime:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(155,215,56,0.38); }
+    .btn-lime:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(46,58,224,0.38); }
 
     .btn-ghost {
       background: transparent; color: var(--white);
@@ -309,11 +309,11 @@
     }
     /* Scrolled: outline only on dark nav */
     #nav.scrolled .btn-quote {
-      background: transparent; color: var(--lime);
-      border-color: rgba(155,215,56,0.38);
+      background: transparent; color: var(--bp-cyan);
+      border-color: rgba(126,207,255,0.38);
     }
-    #nav.scrolled .btn-quote:hover { background: rgba(155,215,56,0.07); border-color: var(--lime); }
-    .btn-quote:hover { transform: translateY(-1px); background: rgba(155, 215, 56, 0.07); border-color: var(--lime); }
+    #nav.scrolled .btn-quote:hover { background: rgba(126,207,255,0.07); border-color: var(--bp-cyan); }
+    .btn-quote:hover { transform: translateY(-1px); background: rgba(46,58,224,0.08); border-color: var(--brand); }
 
     /* Service cards */
     .svc-card {
@@ -530,7 +530,7 @@
     <!-- Left: content -->
     <div style="flex:1;min-width:0;">
       <div class="reveal" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:32px;padding:6px 14px 6px 10px;background:rgba(11,26,106,0.05);border:1px solid rgba(11,26,106,0.12);border-radius:2px;">
-        <span class="pulse-dot" style="width:5px;height:5px;border-radius:50%;background:var(--lime);flex-shrink:0;"></span>
+        <span class="pulse-dot" style="width:5px;height:5px;border-radius:50%;background:var(--brand);flex-shrink:0;"></span>
         <span class="anno" style="color:var(--brand);">Full-Service Creative Agency</span>
       </div>
 
@@ -713,7 +713,7 @@
     </div>
     <div class="stat-div" style="width:1px;height:44px;background:rgba(126,207,255,0.18);"></div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:56px;font-weight:900;color:var(--lime);line-height:1;letter-spacing:-0.04em;">100%</span>
+      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:56px;font-weight:900;color:var(--bp-cyan);line-height:1;letter-spacing:-0.04em;">100%</span>
       <span class="anno" style="opacity:0.65;">Client Satisfaction</span>
     </div>
   </div>
@@ -877,10 +877,10 @@
             <line x1="160" y1="60" x2="150" y2="110"/>
             <circle cx="20" cy="20" r="3" fill="#7ECFFF"/>
             <circle cx="200" cy="20" r="3" fill="#7ECFFF"/>
-            <circle cx="110" cy="160" r="3" fill="#9BD738" stroke="#9BD738"/>
+            <circle cx="110" cy="160" r="3" fill="#7ECFFF" stroke="#7ECFFF"/>
             <text x="47" y="65" font-family="Space Mono" font-size="9" fill="#7ECFFF" stroke="none">LOGO</text>
             <text x="145" y="65" font-family="Space Mono" font-size="9" fill="#7ECFFF" stroke="none">TYPE</text>
-            <text x="86" y="140" font-family="Space Mono" font-size="9" fill="#9BD738" stroke="none">BRAND</text>
+            <text x="86" y="140" font-family="Space Mono" font-size="9" fill="#7ECFFF" stroke="none">BRAND</text>
           </svg>
         </div>
         <div class="port-overlay">
@@ -899,7 +899,7 @@
             <line x1="30" y1="90" x2="100" y2="90"/>
             <line x1="30" y1="110" x2="130" y2="110"/>
             <line x1="30" y1="130" x2="110" y2="130"/>
-            <rect x="30" y="140" width="40" height="20" rx="1" stroke="#9BD738"/>
+            <rect x="30" y="140" width="40" height="20" rx="1" stroke="#7ECFFF"/>
             <line x1="30" y1="35" x2="90" y2="35" stroke-width="1.5"/>
           </svg>
         </div>
@@ -919,7 +919,7 @@
             <rect x="105" y="42" width="75" height="38" rx="1"/>
             <rect x="105" y="90" width="36" height="40" rx="1"/>
             <rect x="145" y="90" width="35" height="40" rx="1"/>
-            <circle cx="20" cy="21" r="4" fill="#9BD738" stroke="#9BD738"/>
+            <circle cx="20" cy="21" r="4" fill="#7ECFFF" stroke="#7ECFFF"/>
             <circle cx="32" cy="21" r="4" fill="rgba(126,207,255,0.3)"/>
             <circle cx="44" cy="21" r="4" fill="rgba(126,207,255,0.3)"/>
           </svg>
@@ -939,7 +939,7 @@
             <rect x="200" y="50" width="80" height="70" rx="1"/>
             <line x1="80" y1="80" x2="100" y2="80"/>
             <line x1="180" y1="80" x2="200" y2="80"/>
-            <line x1="10" y1="130" x2="290" y2="130" stroke-dasharray="4,4" stroke="#9BD738"/>
+            <line x1="10" y1="130" x2="290" y2="130" stroke-dasharray="4,4" stroke="#7ECFFF"/>
             <text x="38" y="155" font-family="Space Mono" font-size="8" fill="#7ECFFF" stroke="none">A</text>
             <text x="133" y="155" font-family="Space Mono" font-size="8" fill="#7ECFFF" stroke="none">B</text>
             <text x="228" y="155" font-family="Space Mono" font-size="8" fill="#7ECFFF" stroke="none">C</text>
@@ -1071,16 +1071,16 @@
           </div>
         </div>
 
-        <div class="process-step" style="border-left-color:rgba(155,215,56,0.6);background:rgba(155,215,56,0.05);">
+        <div class="process-step" style="border-left-color:rgba(126,207,255,0.6);background:rgba(126,207,255,0.05);">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
-            <div style="width:24px;height:24px;background:var(--lime);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Space Mono',monospace;font-size:9px;color:#07120A;font-weight:700;">04</div>
-            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.02em;color:var(--lime);">DELIVER</span>
+            <div style="width:24px;height:24px;background:var(--bp-cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Space Mono',monospace;font-size:9px;color:var(--bp);font-weight:700;">04</div>
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.02em;color:var(--bp-cyan);">DELIVER</span>
           </div>
           <p style="font-size:13px;color:var(--muted);line-height:1.65;padding-left:36px;">Packaged assets, brand guide PDF, print files, hand-off call. Done.</p>
         </div>
 
         <div style="margin-top:16px;display:flex;align-items:center;gap:10px;padding:12px 16px;border:1px solid rgba(126,207,255,0.14);background:rgba(14,28,110,0.4);">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="var(--lime)" stroke-width="1.4"><circle cx="6.5" cy="6.5" r="5.5"/><path d="M4.5 6.5 L6 8 L9 5"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="var(--bp-cyan)" stroke-width="1.4"><circle cx="6.5" cy="6.5" r="5.5"/><path d="M4.5 6.5 L6 8 L9 5"/></svg>
           <span class="anno" style="font-size:9px;opacity:0.6;">AVG. TIMELINE: 2–4 WEEKS PER PROJECT</span>
         </div>
       </div>
@@ -1138,8 +1138,8 @@
 
         </div>
 
-        <div class="reveal" style="transition-delay:0.18s;display:inline-block;border:2px solid rgba(155,215,56,0.32);padding:10px 22px;transform:rotate(-3deg);margin-bottom:32px;">
-          <span style="font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:rgba(155,215,56,0.4);letter-spacing:0.22em;">APPROVED</span>
+        <div class="reveal" style="transition-delay:0.18s;display:inline-block;border:2px solid rgba(46,58,224,0.3);padding:10px 22px;transform:rotate(-3deg);margin-bottom:32px;">
+          <span style="font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:rgba(46,58,224,0.35);letter-spacing:0.22em;">APPROVED</span>
         </div>
 
         <div class="reveal" style="transition-delay:0.22s;padding:16px 20px;border:1px solid rgba(11,26,106,0.1);background:rgba(11,26,106,0.04);">
