@@ -768,6 +768,48 @@
     .bp-dark .tiles-cell.lit {
       background: rgba(126, 207, 255, 0.12);
     }
+
+    /* ── Blueprint Gradient Mesh (panel backgrounds) ── */
+    .mesh-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .mesh-wrap canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    /* Soft cyan spotlight from top-center */
+    .mesh-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 60% 45% at 50% 0%,
+        rgba(126, 207, 255, 0.07) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+    /* Vignette — darken edges */
+    .mesh-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 90% 90% at 50% 50%,
+        transparent 40%,
+        rgba(11, 26, 106, 0.50) 100%
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
   </style>
 </head>
 <body>
@@ -1065,6 +1107,7 @@
 
 <!-- ════════ SERVICES PANEL (combined) ════════ -->
 <div id="panel-services" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
 
 <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
@@ -1249,6 +1292,7 @@
 <!-- ════════ PRINTING SUB-PANELS ════════ -->
 
 <div id="panel-stickers" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
 
   <!-- SVG pattern definitions -->
@@ -1457,6 +1501,7 @@
 </div>
 
 <div id="panel-signs" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
   <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
     <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; SIGNS &amp; DISPLAYS</div>
@@ -1479,6 +1524,7 @@
 </div>
 
 <div id="panel-apparel" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
   <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
     <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; APPAREL</div>
@@ -1501,6 +1547,7 @@
 </div>
 
 <div id="panel-largeformat" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
   <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
     <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; LARGE FORMAT</div>
@@ -1523,6 +1570,7 @@
 </div>
 
 <div id="panel-events" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
   <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
     <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; EVENT GRAPHICS</div>
@@ -1545,6 +1593,7 @@
 </div>
 
 <div id="panel-marketing" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
   <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
     <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; MARKETING MATERIALS</div>
@@ -1567,6 +1616,7 @@
 </div>
 
 <div id="panel-packaging" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
   <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;">
     <div class="sheet-label" style="position:absolute;top:24px;right:48px;">PRINTING &mdash; PACKAGING</div>
@@ -1591,6 +1641,7 @@
 
 <!-- ════════ PROJECTS PANEL ════════ -->
 <div id="panel-projects" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">← HOME</button>
 
 <!-- ════════ PROJECTS — SHEET 06 ════════ -->
@@ -1718,6 +1769,7 @@
 
 <!-- ════════ ABOUT PANEL ════════ -->
 <div id="panel-about" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">← HOME</button>
 
 <!-- ════════ ABOUT — SHEET 04 ════════ -->
@@ -1851,6 +1903,7 @@
 
 <!-- ════════ CONTACT PANEL ════════ -->
 <div id="panel-contact" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">← HOME</button>
 
 <!-- ════════ CONTACT — SHEET 05 ════════ -->
@@ -1975,6 +2028,7 @@
 
 <!-- ════════ LOGIN PANEL ════════ -->
 <div id="panel-login" class="page-panel bp-dark">
+  <div class="mesh-wrap"></div>
   <button class="panel-back" onclick="closePanel(this)">&larr; HOME</button>
 
   <section class="bp-dark" style="padding:60px 48px 24px;position:relative;z-index:2;height:100vh;box-sizing:border-box;display:flex;align-items:center;justify-content:center;">
@@ -2090,6 +2144,130 @@
   }
   generateTiles(document.getElementById('hero-tiles'), document.getElementById('hero'));
 
+  // ── Blueprint Gradient Mesh (panel backgrounds) ──────────────
+  (function() {
+    const CELL = 48;
+    const SPEED = 0.18;
+    const GRID_COLOR   = 'rgba(126,207,255,0.07)';
+    const GRID_ACCENT  = 'rgba(126,207,255,0.14)';
+    const HOVER_FILL   = 'rgba(126,207,255,0.09)';
+    const HOVER_STROKE = 'rgba(126,207,255,0.35)';
+    const HOVER_GLOW   = 12;
+
+    let rafId = null;
+    let offset = 0;
+    let activeWrap = null;
+    let gridCanvas = null, gridCtx = null;
+    let hoverCanvas = null, hoverCtx = null;
+    let hoverCell = { ci: -1, ri: -1 };
+
+    function drawGrid(w, h) {
+      gridCtx.clearRect(0, 0, w, h);
+      const o = offset % CELL;
+      for (let x = -CELL + o; x < w + CELL; x += CELL) {
+        const li = Math.round((x - o) / CELL);
+        gridCtx.strokeStyle = (li % 4 === 0) ? GRID_ACCENT : GRID_COLOR;
+        gridCtx.lineWidth   = (li % 4 === 0) ? 1 : 0.5;
+        gridCtx.beginPath();
+        gridCtx.moveTo(x, 0);
+        gridCtx.lineTo(x, h);
+        gridCtx.stroke();
+      }
+      for (let y = -CELL + o * 0.6; y < h + CELL; y += CELL) {
+        const li = Math.round((y - o * 0.6) / CELL);
+        gridCtx.strokeStyle = (li % 4 === 0) ? GRID_ACCENT : GRID_COLOR;
+        gridCtx.lineWidth   = (li % 4 === 0) ? 1 : 0.5;
+        gridCtx.beginPath();
+        gridCtx.moveTo(0, y);
+        gridCtx.lineTo(w, y);
+        gridCtx.stroke();
+      }
+    }
+
+    function drawHover(w, h) {
+      hoverCtx.clearRect(0, 0, w, h);
+      const { ci, ri } = hoverCell;
+      if (ci < 0 || ri < 0) return;
+      const o = offset % CELL;
+      const x = ci * CELL - CELL + o;
+      const y = ri * CELL - CELL + o * 0.6;
+      hoverCtx.save();
+      hoverCtx.shadowBlur  = HOVER_GLOW;
+      hoverCtx.shadowColor = 'rgba(126,207,255,0.4)';
+      hoverCtx.fillStyle   = HOVER_FILL;
+      hoverCtx.fillRect(x, y, CELL, CELL);
+      hoverCtx.restore();
+      hoverCtx.strokeStyle = HOVER_STROKE;
+      hoverCtx.lineWidth   = 1;
+      hoverCtx.strokeRect(x + 0.5, y + 0.5, CELL - 1, CELL - 1);
+    }
+
+    function tick() {
+      if (!activeWrap) return;
+      offset += SPEED;
+      const w = gridCanvas.width / (window.devicePixelRatio || 1);
+      const h = gridCanvas.height / (window.devicePixelRatio || 1);
+      drawGrid(w, h);
+      drawHover(w, h);
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function makeCanvas(wrap, w, h, dpr) {
+      const c = document.createElement('canvas');
+      c.width = w * dpr;
+      c.height = h * dpr;
+      c.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
+      const ctx = c.getContext('2d');
+      ctx.scale(dpr, dpr);
+      wrap.appendChild(c);
+      return { canvas: c, ctx: ctx };
+    }
+
+    function startMesh(wrap) {
+      if (activeWrap === wrap) return;
+      stopMesh();
+      activeWrap = wrap;
+      const w = wrap.clientWidth || window.innerWidth;
+      const h = wrap.clientHeight || window.innerHeight;
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+
+      const g = makeCanvas(wrap, w, h, dpr);
+      gridCanvas = g.canvas; gridCtx = g.ctx;
+      const hv = makeCanvas(wrap, w, h, dpr);
+      hoverCanvas = hv.canvas; hoverCtx = hv.ctx;
+
+      const panel = wrap.parentElement;
+      panel._meshMove = function(e) {
+        const rect = wrap.getBoundingClientRect();
+        const o = offset % CELL;
+        const mx = e.clientX - rect.left - o + CELL;
+        const my = e.clientY - rect.top - o * 0.6 + CELL;
+        hoverCell.ci = Math.floor(mx / CELL);
+        hoverCell.ri = Math.floor(my / CELL);
+      };
+      panel._meshLeave = function() { hoverCell.ci = -1; hoverCell.ri = -1; };
+      panel.addEventListener('mousemove', panel._meshMove);
+      panel.addEventListener('mouseleave', panel._meshLeave);
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function stopMesh() {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      if (activeWrap) {
+        const panel = activeWrap.parentElement;
+        if (panel && panel._meshMove) panel.removeEventListener('mousemove', panel._meshMove);
+        if (panel && panel._meshLeave) panel.removeEventListener('mouseleave', panel._meshLeave);
+        if (gridCanvas && gridCanvas.parentNode) gridCanvas.parentNode.removeChild(gridCanvas);
+        if (hoverCanvas && hoverCanvas.parentNode) hoverCanvas.parentNode.removeChild(hoverCanvas);
+      }
+      activeWrap = gridCanvas = gridCtx = hoverCanvas = hoverCtx = null;
+      hoverCell = { ci: -1, ri: -1 };
+    }
+
+    window._meshStart = startMesh;
+    window._meshStop  = stopMesh;
+  })();
+
   // Project detail panels
   function openProject(id) {
     const proj = document.getElementById(id);
@@ -2111,6 +2289,8 @@
     panel.classList.add('open');
     panel.scrollTop = 0;
     document.body.classList.add('panel-open');
+    var meshWrap = panel.querySelector('.mesh-wrap');
+    if (meshWrap && window._meshStart) window._meshStart(meshWrap);
     // delay logo swap until panel has nearly finished sliding up (transition = 0.58s)
     setTimeout(() => {
       document.getElementById('logo-dark').style.display  = 'none';
@@ -2123,6 +2303,7 @@
     if (!panel) return;
     panel.classList.remove('open');
     document.body.classList.remove('panel-open');
+    if (window._meshStop) window._meshStop();
     // revert logo → dark, non-clickable
     document.getElementById('logo-dark').style.display  = 'block';
     document.getElementById('logo-white').style.display = 'none';
