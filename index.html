@@ -2172,21 +2172,15 @@
     function drawGrid(w, h) {
       gridCtx.clearRect(0, 0, w, h);
       const o = offset % CELL;
-      // Base index tracks which grid line is at origin, so accents scroll with the grid
-      const baseIdx = Math.floor(offset / CELL);
-      for (let i = 0, x = -CELL + o; x < w + CELL; i++, x += CELL) {
-        const gi = (baseIdx + i) % 4;
-        gridCtx.strokeStyle = (gi === 0) ? GRID_ACCENT : GRID_COLOR;
-        gridCtx.lineWidth   = (gi === 0) ? 1 : 0.5;
+      gridCtx.strokeStyle = GRID_COLOR;
+      gridCtx.lineWidth = 0.5;
+      for (let x = -CELL + o; x < w + CELL; x += CELL) {
         gridCtx.beginPath();
         gridCtx.moveTo(Math.round(x) + 0.5, 0);
         gridCtx.lineTo(Math.round(x) + 0.5, h);
         gridCtx.stroke();
       }
-      for (let i = 0, y = -CELL + o; y < h + CELL; i++, y += CELL) {
-        const gi = (baseIdx + i) % 4;
-        gridCtx.strokeStyle = (gi === 0) ? GRID_ACCENT : GRID_COLOR;
-        gridCtx.lineWidth   = (gi === 0) ? 1 : 0.5;
+      for (let y = -CELL + o; y < h + CELL; y += CELL) {
         gridCtx.beginPath();
         gridCtx.moveTo(0, Math.round(y) + 0.5);
         gridCtx.lineTo(w, Math.round(y) + 0.5);
