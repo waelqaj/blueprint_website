@@ -239,8 +239,8 @@
     }
     .nav-link {
       font-family: 'Inter', sans-serif;
-      font-size: 12px; font-weight: 500;
-      color: rgba(190, 210, 255, 0.6);
+      font-size: 12px; font-weight: 700;
+      color: var(--bp);
       text-decoration: none;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -253,14 +253,26 @@
       content: '';
       position: absolute; inset: 0;
       border-radius: 100px;
-      background: rgba(126, 207, 255, 0.1);
-      border: 1px solid rgba(126, 207, 255, 0.18);
+      background: rgba(11, 26, 106, 0.07);
+      border: 1px solid rgba(11, 26, 106, 0.14);
       opacity: 0;
       transform: scale(0.82);
       transition: opacity 0.25s ease, transform 0.3s cubic-bezier(.34,1.5,.64,1);
     }
-    .nav-link:hover { color: var(--white); }
+    .nav-link:hover { color: var(--brand); }
     .nav-link:hover::before { opacity: 1; transform: scale(1); }
+
+    /* Scrolled nav: light text on dark bg */
+    #nav.scrolled .nav-link { color: rgba(190, 210, 255, 0.72); }
+    #nav.scrolled .nav-link:hover { color: var(--white); }
+    #nav.scrolled .nav-link::before {
+      background: rgba(126, 207, 255, 0.1);
+      border-color: rgba(126, 207, 255, 0.18);
+    }
+
+    /* Logo: dark on transparent nav, white when scrolled */
+    #nav-logo { filter: brightness(0) saturate(100%) invert(10%) sepia(80%) saturate(600%) hue-rotate(210deg); transition: filter 0.35s ease; }
+    #nav.scrolled #nav-logo { filter: brightness(0) invert(1); }
 
     /* Buttons */
     .btn {
@@ -466,7 +478,7 @@
 <!-- ════════ NAV ════════ -->
 <nav id="nav">
   <a href="#" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;">
-    <img src="brand_assets/1.png" alt="Blueprint" style="height:28px;width:auto;filter:brightness(0) invert(1);">
+    <img id="nav-logo" src="brand_assets/1.png" alt="Blueprint" style="height:28px;width:auto;">
   </a>
 
   <ul style="display:flex;align-items:center;gap:40px;list-style:none;" class="hidden md:flex">
