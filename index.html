@@ -302,11 +302,17 @@
     .btn-ghost:hover { transform: translateY(-2px); border-color: var(--bp-cyan); background: rgba(126, 207, 255, 0.06); }
 
     .btn-quote {
-      background: transparent; color: var(--lime);
+      background: var(--brand); color: #fff;
       padding: 8px 18px; font-size: 10px;
-      border: 1px solid rgba(155,215,56,0.38);
+      border: 1px solid var(--brand);
       border-radius: 2px;
     }
+    /* Scrolled: outline only on dark nav */
+    #nav.scrolled .btn-quote {
+      background: transparent; color: var(--lime);
+      border-color: rgba(155,215,56,0.38);
+    }
+    #nav.scrolled .btn-quote:hover { background: rgba(155,215,56,0.07); border-color: var(--lime); }
     .btn-quote:hover { transform: translateY(-1px); background: rgba(155, 215, 56, 0.07); border-color: var(--lime); }
 
     /* Service cards */
