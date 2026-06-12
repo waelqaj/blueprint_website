@@ -88,8 +88,23 @@
 ---
 
 ## Git Workflow
-Commit after each meaningful unit of work. Never batch unrelated changes.
 
+**Branch first, push only after approval.** Never commit directly to `main`.
+
+1. Before changing anything, create a working branch from `main`:
+   ```bash
+   git checkout main && git checkout -b feat/<short-name>
+   ```
+2. Commit on the branch after each meaningful unit of work. Never batch unrelated changes.
+3. Show the result to the user (localhost link + screenshots) and wait for their verdict.
+4. **Only if the user likes the direction:** merge to `main` and push.
+   ```bash
+   git checkout main && git merge feat/<short-name> && git push
+   ```
+5. If the direction is rejected, leave `main` untouched — delete or park the branch.
+   `main` must always be a known-good point to revert to.
+
+Commit message format:
 ```
 <type>: <short description>
 
@@ -100,9 +115,3 @@ refactor: extract blueprint grid into reusable CSS class
 ```
 
 Always stage specific files — never `git add -A` or `git add .`.
-
-```bash
-git add index.html
-git commit -m "feat: add blueprint schematic hero section"
-git push
-```
